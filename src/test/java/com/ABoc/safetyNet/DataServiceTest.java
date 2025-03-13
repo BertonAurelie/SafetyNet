@@ -24,6 +24,8 @@ public class DataServiceTest {
     @Mock
     private DataService dataService;
 
+    private Data dataTest;
+
     @BeforeEach
     void setUp() throws IOException {
         String testDataFile = "src/test/resources/dataTest.json";
@@ -31,14 +33,15 @@ public class DataServiceTest {
 
         ObjectMapper objectMapper = new ObjectMapper();
         Data dataTest = objectMapper.readValue(fileDataTest, Data.class);
-
-        dataService = new DataService();
+        when(dataService.loadFileData()).thenReturn(dataTest);
     }
 
 
     @Test
     public void foundPersonTest(){
+
         dataService.foundPerson("Lily");
     }
+
 
 }

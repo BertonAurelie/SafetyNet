@@ -15,25 +15,35 @@ import java.util.List;
 
 @Service
 public class DataService {
-    private ObjectMapper objectMapper = new ObjectMapper();
-    File dataJsonFile = new File("src/main/resources/data.json");
-    Data data;
+    private Data data;
 
-    public DataService() throws IOException {
-        data = objectMapper.readValue(dataJsonFile, Data.class);
-        System.out.println(data);
+    public DataService(){ try {
+        loadFileData();
+    } catch (IOException e) {
+        System.out.println("erreur");
+    }
     }
 
-    public List<Person> getDataPersons(){
-        return data.getPersons();
+    public Data loadFileData() throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        File dataJsonFile = new File("src/main/resources/data.json");
+        data = objectMapper.readValue(dataJsonFile, Data.class);
+        return data;
+    }
+
+    public List<Person> getAllPersons(){
+            return data.getPersons();
     }
 
     public void foundPerson(String x){
-        for(Person person : data.getPersons()){
-            if (x.equals(person.getFirstName())){
-                System.out.println("personnne trouvée");
+        if(data != null) {
+            for (Person person : data.getPersons()) {
+                if (x.equals(person.getFirstName())) {
+                    System.out.println("personnne trouvée" + person.getFirstName() + " " + person.getLastName());
+                }
             }
         }
+
     }
 
     public void editDataPersons(String x){
@@ -41,7 +51,5 @@ public class DataService {
             data.showInfo();
         }
     }
-
-
 }
 
