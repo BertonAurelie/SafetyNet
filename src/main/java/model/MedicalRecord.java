@@ -30,23 +30,20 @@ public class MedicalRecord {
     public List<String> getMedications() {return medications;}
     public List<String> getAllergies() {return allergies;}
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+    public void setFirstName(String firstName) {this.firstName = firstName;}
+    public void setLastName(String lastName) {this.lastName = lastName;}
+    public void setBirthdate(String birthdate) {this.birthdate = birthdate;}
+    public void setMedications(List<String> medications) {this.medications = medications;}
+    public void setAllergies(List<String> allergies) {this.allergies = allergies;}
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public void setBirthdate(String birthdate) {
-        this.birthdate = birthdate;
-    }
-
-    public void setMedications(List<String> medications) {
-        this.medications = medications;
-    }
-
-    public void setAllergies(List<String> allergies) {
-        this.allergies = allergies;
+    @Override
+    public String toString() {
+        return "MedicalRecord{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", birthdate='" + birthdate + '\'' +
+                ", medications=" + medications +
+                ", allergies=" + allergies +
+                '}';
     }
 }

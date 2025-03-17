@@ -1,7 +1,9 @@
 package com.ABoc.safetyNet;
 
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import model.Data;
+import model.Person;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,18 +14,13 @@ import service.DataService;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 public class DataServiceTest {
-
-    @Mock
-    private ObjectMapper objectMapper;
-
-    @Mock
-    private DataService dataService;
-
+    private DataService dataService; // Ne pas mocker, on teste un vrai objet
     private Data dataTest;
 
     @BeforeEach
@@ -32,15 +29,21 @@ public class DataServiceTest {
         File fileDataTest = new File(testDataFile);
 
         ObjectMapper objectMapper = new ObjectMapper();
-        Data dataTest = objectMapper.readValue(fileDataTest, Data.class);
-        when(dataService.loadFileData()).thenReturn(dataTest);
+        dataTest = objectMapper.readValue(fileDataTest, Data.class);
+
+        // Créer une instance réelle de DataService avec des données test
+        dataService = new DataService();
+        dataService.loadFileData();
     }
 
-
     @Test
-    public void foundPersonTest(){
+    public void foundPersonTest() throws IOException {
+        List<Person> persons = dataService.getAllPersons();
+        assertNotNull(persons); // Vérifier que la liste n'est pas vide
+        assertFalse(persons.isEmpty()); // Vérifier qu'il y a des personnes
+        System.out.println("Personnes trouvées : " + persons.size());
 
-        dataService.foundPerson("Lily");
+        dataService.foundPerson("CHARGEMENT");
     }
 
 
