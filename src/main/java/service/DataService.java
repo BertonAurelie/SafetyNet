@@ -18,54 +18,34 @@ import java.util.List;
 
 @Service
 public class DataService {
-    private Data data;
+    private static Data dataList = null;
+    File filePathData = new File("src/main/resources/data.json");
     private static final Logger logger = LoggerFactory.getLogger(DataService.class);
 
-    public DataService(){}
-
-    @PostConstruct
-    public void init() throws IOException {
-        loadFileData();
+    public Data loadFileData() throws IOException {
+        logger.info("Loading data JSON...");
+        if (dataList == null) {
+            try {
+                ObjectMapper objectMapper = new ObjectMapper();
+                dataList = objectMapper.readValue(filePathData, Data.class);
+                logger.debug("Data recovery : ");
+                System.out.println("Person list : " + dataList.getPersons());
+                System.out.println("Firestation list : " + dataList.getFirestations());
+                System.out.println("Medicalrecords list : " + dataList.getMedicalrecords());
+            } catch (Exception e) {
+                logger.debug("file could not be loaded correctly");
+            }
+        }
+        return dataList;
     }
 
-    public Data loadFileData() throws IOException {
-        logger.info("Chargement des données JSON...");
+    public void writeData() {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-            File dataJsonFile = new File("src/main/resources/data.json");
-            data = objectMapper.readValue(dataJsonFile, Data.class);
-            // Code de chargement
-            logger.info("Données chargées avec succès : {} personnes chargées", data.getPersons().size());
+            objectMapper.writerWithDefaultPrettyPrinter().writeValue(filePathData, loadFileData());
+            logger.info("file has been modified successfully");
         } catch (Exception e) {
-            logger.error("Erreur lors du chargement du fichier JSON", e);
-            data = new Data(); // Initialisation avec un objet vide pour éviter les NullPointerException
-        }
-        return data;
-    }
-
-    public List<Person> getAllPersons() {
-        if (data == null || data.getPersons() == null) {
-            logger.warn("Aucune donnée disponible !");
-            return List.of(); // Retourne une liste vide au lieu de null
-        }
-        return data.getPersons();
-    }
-
-    public Person foundPerson(String firstName) {
-        if (data == null || data.getPersons().isEmpty()) {
-            logger.warn("Aucune donnée chargée !");
-            return null;
-        }
-
-        return data.getPersons().stream()
-                .filter(person -> person.getFirstName().equalsIgnoreCase(firstName))
-                .findFirst()
-                .orElse(null);
-    }
-
-    public void editDataPersons(String x){
-        for(int i = 0; i < data.getPersons().size(); i++){
-            data.showInfo();
+            logger.debug("Unable to edit file.");
         }
     }
 }

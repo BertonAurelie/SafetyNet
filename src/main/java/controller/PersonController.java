@@ -4,17 +4,17 @@ import model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import service.DataService;
+import service.PersonService;
 
 import java.util.List;
 
 @RestController // bean + retour méthode au format JSON dans le corps de la réponse HTTP.
-public class DataController {
+public class PersonController {
     @Autowired
-    private DataService dataService;
+    private PersonService personService;
 
-    public DataController(DataService dataService) {
-        this.dataService = dataService;
+    public PersonController(PersonService personService) {
+        this.personService = personService;
     }
 
     /**
@@ -23,6 +23,6 @@ public class DataController {
      */
     @GetMapping("/persons")
     public List<Person> getEmployees() {
-        return dataService.getAllPersons();
+        return personService.getAllPersons();
     }
 }
