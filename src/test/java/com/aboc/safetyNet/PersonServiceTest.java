@@ -1,15 +1,16 @@
-package com.ABoc.safetyNet;
+package com.aboc.safetyNet;
 
 
-import model.Data;
-import model.Person;
+import com.aboc.safetyNet.controller.PersonController;
+import com.aboc.safetyNet.model.Data;
+import com.aboc.safetyNet.model.Person;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import service.DataService;
-import service.PersonService;
+import com.aboc.safetyNet.service.DataService;
+import com.aboc.safetyNet.service.PersonService;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,6 +30,11 @@ public class PersonServiceTest {
 
     private PersonService personService;
 
+    private Data data;
+    private DataService dataService2;
+
+
+
 
     @BeforeEach
     public void setup() throws IOException {
@@ -36,7 +42,7 @@ public class PersonServiceTest {
         List<Person> fakePerson = new ArrayList<>();
         fakePerson.add(new Person("testFirstName", "testLastName", "test", "test", 123, "test", "test"));
         fakeData.setPersons(fakePerson);
-        when(dataService.loadFileData()).thenReturn(fakeData);
+       when(dataService.loadFileData()).thenReturn(fakeData);
         personService = new PersonService(dataService);
     }
 
@@ -76,7 +82,7 @@ public class PersonServiceTest {
 
     @Test
     public void deleteDataObjectTest() throws IOException {
-        personService.deleteDataPerson("testFirstName", "testLastName");
+        personService.deletePerson("testFirstName", "testLastName");
         List<Person> result = personService.getAllPersons();
 
         assertNotNull(result);

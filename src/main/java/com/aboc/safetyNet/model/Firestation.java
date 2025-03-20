@@ -1,4 +1,4 @@
-package model;
+package com.aboc.safetyNet.model;
 
 public class Firestation {
     private String address;

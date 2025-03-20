@@ -1,6 +1,5 @@
-package model;
+package com.aboc.safetyNet.model;
 
-import java.awt.desktop.SystemSleepEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,5 +42,14 @@ public class Data {
         for (Person person : persons) {
             System.out.println(person.getFirstName() + " " + person.getLastName());
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Data{" +
+                "persons=" + persons +
+                ", firestations=" + firestations +
+                ", medicalrecords=" + medicalrecords +
+                '}';
     }
 }

@@ -1,16 +1,21 @@
-package model;
+package com.aboc.safetyNet.model;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.util.StringUtils;
 
 public class Person {
     private String firstName;
     private String lastName;
     private String address;
     private String city;
-    private int zip;
+    private Integer zip;
     private String phone;
     private String email;
 
+    public Person() {}
+
     //Constructeur
-    public Person(String firstName, String lastName, String address, String city, int zip, String phone, String email) {
+    public Person(String firstName, String lastName, String address, String city, Integer zip, String phone, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -25,7 +30,7 @@ public class Person {
     public String getLastName(){return lastName;}
     public String getAddress() {return address;}
     public String getCity() {return city;}
-    public int getZip() {return zip;}
+    public Integer getZip() {return zip;}
     public String getPhone() {return phone;}
     public String getEmail() {return email;}
 
@@ -45,7 +50,7 @@ public class Person {
         this.city = city;
     }
 
-    public void setZip(int zip) {
+    public void setZip(Integer zip) {
         this.zip = zip;
     }
 
@@ -68,6 +73,17 @@ public class Person {
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
                 '}';
+    }
+
+    @JsonIgnore
+    public Boolean isFilled(){
+        return StringUtils.hasLength(firstName) &&
+        StringUtils.hasLength(lastName) &&
+        StringUtils.hasLength(address) &&
+        StringUtils.hasLength(city) &&
+        zip != null &&
+        StringUtils.hasLength(phone) &&
+        StringUtils.hasLength(email);
     }
 }
 

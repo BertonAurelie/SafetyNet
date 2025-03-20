@@ -1,4 +1,4 @@
-package com.ABoc.safetyNet;
+package com.aboc.safetyNet;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

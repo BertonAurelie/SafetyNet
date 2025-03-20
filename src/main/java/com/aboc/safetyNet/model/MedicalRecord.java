@@ -1,6 +1,4 @@
-package model;
-
-import org.springframework.aop.interceptor.SimpleTraceInterceptor;
+package com.aboc.safetyNet.model;
 
 import java.util.ArrayList;
 import java.util.List;
