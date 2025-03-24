@@ -1,8 +1,5 @@
 package com.aboc.safetyNet.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.springframework.util.StringUtils;
-
 public class Person {
     private String firstName;
     private String lastName;
@@ -33,23 +30,18 @@ public class Person {
     public Integer getZip() {return zip;}
     public String getPhone() {return phone;}
     public String getEmail() {return email;}
-
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
-
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-
     public void setAddress(String address) {
         this.address = address;
     }
-
     public void setCity(String city) {
         this.city = city;
     }
-
     public void setZip(Integer zip) {
         this.zip = zip;
     }
@@ -57,7 +49,6 @@ public class Person {
     public void setPhone(String phone) {
         this.phone = phone;
     }
-
     public void setEmail(String email) {
         this.email = email;
     }
@@ -73,17 +64,6 @@ public class Person {
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
                 '}';
-    }
-
-    @JsonIgnore
-    public Boolean isFilled(){
-        return StringUtils.hasLength(firstName) &&
-        StringUtils.hasLength(lastName) &&
-        StringUtils.hasLength(address) &&
-        StringUtils.hasLength(city) &&
-        zip != null &&
-        StringUtils.hasLength(phone) &&
-        StringUtils.hasLength(email);
     }
 }
 

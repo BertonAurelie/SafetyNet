@@ -38,12 +38,6 @@ public class Data {
         this.medicalrecords = medicalrecords;
     }
 
-    public void showInfo(){
-        for (Person person : persons) {
-            System.out.println(person.getFirstName() + " " + person.getLastName());
-        }
-    }
-
     @Override
     public String toString() {
         return "Data{" +

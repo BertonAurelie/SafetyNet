@@ -191,22 +191,6 @@
     "zip" : 123,
     "phone" : "Test",
     "email" : "test@email.com"
-  }, {
-    "firstName" : "Test2",
-    "lastName" : "Test2",
-    "address" : "Test",
-    "city" : "Test",
-    "zip" : 123,
-    "phone" : "Test",
-    "email" : "test@email.com"
-  }, {
-    "firstName" : "Test3",
-    "lastName" : "Test3",
-    "address" : "Test",
-    "city" : "Test",
-    "zip" : 123,
-    "phone" : "Test",
-    "email" : "test@email.com"
   } ],
   "firestations" : [ {
     "address" : "1509 Culver St",

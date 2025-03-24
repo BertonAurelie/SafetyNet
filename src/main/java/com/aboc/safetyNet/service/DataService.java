@@ -19,7 +19,7 @@ public class DataService {
     }
 
     public Data loadFileData() throws IOException {
-        logger.info("Loading data JSON...");
+        logger.info("{}Loading data JSON...{}","");
         if (dataList == null) {
             try {
                 ObjectMapper objectMapper = new ObjectMapper();

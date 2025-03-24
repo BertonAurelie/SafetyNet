@@ -1,16 +1,16 @@
 package com.aboc.safetyNet.controller;
 
 import com.aboc.safetyNet.model.Person;
+import com.aboc.safetyNet.model.dto.PersonDTO;
 import com.aboc.safetyNet.service.PersonService;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
-import java.net.URI;
 import java.util.List;
 
 @RestController// bean + retour méthode au format JSON dans le corps de la réponse HTTP.
@@ -25,24 +25,59 @@ public class PersonController {
     }
 
     /**
-     * Read - Get all persons
-     *
+     * Read - Get all persons on DB
      * @return - An Iterable object of Persons full filled
      */
     @GetMapping
-    public List<Person> getAllPersons() {
+    public ResponseEntity<List<Person>> getAllPersons() {
         logger.info("loading getAllPersons");
-        return personService.getAllPersons();
+        return new ResponseEntity<List<Person>>(personService.getAllPersons(), HttpStatus.OK);
     }
 
+    /**
+     * Create - add new person on DB
+     * @return this new person
+     */
     @PostMapping
-    public ResponseEntity<Person> addPerson(@RequestBody Person person) throws IOException {
-        return new ResponseEntity<Person>(personService.addNewPerson(person), HttpStatus.CREATED);
+    public ResponseEntity<PersonDTO> addPerson(@RequestBody @Valid PersonDTO person) throws IOException {
+        return new ResponseEntity<PersonDTO>(personService.addNewPerson(person), HttpStatus.CREATED);
     }
 
+    /**
+     * Delete - Delete person on DB
+     */
     @DeleteMapping
-    public void deletePerson(@RequestParam String firstName, @RequestParam String lastName) throws IOException {
-        personService.deletePerson(firstName, lastName);
+    public ResponseEntity<String> deletePerson(@RequestParam String firstName, @RequestParam String lastName) throws IOException {
+        Boolean delete = personService.deletePerson(firstName, lastName);
+        if(delete){
+            return new ResponseEntity<>("person successfully deleted", HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Person to delete not found", HttpStatus.NOT_FOUND);
     }
 
+    /**
+     * Edit - Edit person
+     * @return
+     */
+    @PutMapping
+    public ResponseEntity<Person> UpdatePerson(@RequestParam String firstName,
+                                               @RequestParam String lastName,
+                                               @RequestParam String address,
+                                               @RequestParam String city,
+                                               @RequestParam Integer zip,
+                                               @RequestParam String phone,
+                                               @RequestParam String email) throws IOException {
+        return new ResponseEntity<Person>(personService.editDataPerson(firstName, lastName, address, city, zip, phone, email), HttpStatus.NO_CONTENT);
+    }
 }
+
+
+//@RestController
+//class ValidateRequestBodyController {
+//
+//  @PostMapping("/validateBody")
+//  ResponseEntity<String> validateBody(@Valid @RequestBody Input input) {
+//    return ResponseEntity.ok("valid");
+//  }
+//
+//}

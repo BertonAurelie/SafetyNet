@@ -1,7 +1,9 @@
 package com.aboc.safetyNet.service;
 
-import com.aboc.safetyNet.exception.BadRequestException;
+import com.aboc.safetyNet.exception.SafetyNetBadRequestException;
 import com.aboc.safetyNet.model.Person;
+import com.aboc.safetyNet.model.dto.PersonDTO;
+import com.aboc.safetyNet.model.mapper.PersonMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -35,21 +37,22 @@ public class PersonService {
         return null;
     }
 
-    public Person addNewPerson(Person person) throws IOException {
+    public PersonDTO addNewPerson(PersonDTO personDto) throws IOException {
+        Person person = PersonMapper.toEntity(personDto);
         logger.info(person.toString());
-        if (person != null && person.isFilled()) {
+        if (person != null) {
             persons.add(person);
             dataService.writeData();
             logger.info("person registered in the database");
-            return person;
+            return PersonMapper.toDto(person);
         } else {
             logger.info(person.toString());
             logger.info("disabled person");
-            throw new BadRequestException("Person should be full");
+            throw new SafetyNetBadRequestException("Person should be full");
         }
     }
 
-    public void editDataPerson(String firstName, String lastName, String newAddress, String newCity, Integer newZip, String newPhone, String newEmail) throws IOException {
+    public Person editDataPerson(String firstName, String lastName, String newAddress, String newCity, Integer newZip, String newPhone, String newEmail) throws IOException {
         if (firstName != null && lastName != null) {
             for (Person person : persons) {
                 if (firstName.equals(person.getFirstName()) && lastName.equals(person.getLastName())) {
@@ -74,24 +77,28 @@ public class PersonService {
                         logger.info("email modified");
                     }
                 }
+                dataService.writeData();
+                logger.info("change saved successfully");
+                return person;
             }
-            dataService.writeData();
-            logger.info("change saved successfully");
         }
+        return null;
     }
 
-    public void deletePerson(String firstNameX, String lastNameY) throws IOException {
+    public Boolean deletePerson(String firstNameX, String lastNameY) throws IOException {
+        boolean found = false;
         if (firstNameX != null && lastNameY != null) {
             logger.info("search for person to delete.");
             for (Person person : persons) {
                 if (firstNameX.equals(person.getFirstName()) && lastNameY.equals(person.getLastName())) {
                     persons.remove(person);
                     dataService.writeData();
+                    logger.info("person successfully deleted");
+                    found = true;
                     break;
-                } else {
-                    logger.info("no people to delete .");
                 }
             }
         }
+        return found;
     }
 }

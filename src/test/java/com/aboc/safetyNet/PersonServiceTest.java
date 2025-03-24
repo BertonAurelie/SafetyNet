@@ -1,16 +1,17 @@
 package com.aboc.safetyNet;
 
 
-import com.aboc.safetyNet.controller.PersonController;
 import com.aboc.safetyNet.model.Data;
 import com.aboc.safetyNet.model.Person;
+import com.aboc.safetyNet.model.dto.PersonDTO;
+import com.aboc.safetyNet.model.mapper.PersonMapper;
+import com.aboc.safetyNet.service.DataService;
+import com.aboc.safetyNet.service.PersonService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import com.aboc.safetyNet.service.DataService;
-import com.aboc.safetyNet.service.PersonService;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,15 +35,13 @@ public class PersonServiceTest {
     private DataService dataService2;
 
 
-
-
     @BeforeEach
     public void setup() throws IOException {
         Data fakeData = new Data();
         List<Person> fakePerson = new ArrayList<>();
         fakePerson.add(new Person("testFirstName", "testLastName", "test", "test", 123, "test", "test"));
         fakeData.setPersons(fakePerson);
-       when(dataService.loadFileData()).thenReturn(fakeData);
+        when(dataService.loadFileData()).thenReturn(fakeData);
         personService = new PersonService(dataService);
     }
 
@@ -62,13 +61,15 @@ public class PersonServiceTest {
 
     @Test
     public void addNewDataTest() throws IOException {
-        Person addThisPerson = new Person("essaiFirstName", "essaiLastName", "essaiAddress", "essaiCity", 123, "essaiPhone", "essaimail");
+        Person person = new Person("essaiFirstName", "essaiLastName", "essaiAddress", "essaiCity", 123, "essaiPhone", "essaimail");
+        PersonDTO addThisPerson = PersonMapper.toDto(person);
         personService.addNewPerson(addThisPerson);
 
         List<Person> result = personService.getAllPersons();
 
         assertEquals(2, result.size());
     }
+
 
     @Test
     public void editDataObjectTest() throws IOException {
