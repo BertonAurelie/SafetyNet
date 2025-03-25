@@ -1,5 +1,7 @@
 package com.aboc.safetyNet.model;
 
+import java.util.Objects;
+
 public class Person {
     private String firstName;
     private String lastName;
@@ -64,6 +66,14 @@ public class Person {
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return firstName.equals(person.getFirstName()) && lastName.equals(person.getLastName());
     }
 }
 

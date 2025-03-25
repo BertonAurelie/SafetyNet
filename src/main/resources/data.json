@@ -186,7 +186,7 @@
   }, {
     "firstName" : "Test",
     "lastName" : "Test",
-    "address" : "Test",
+    "address" : "TestUpdated",
     "city" : "Test",
     "zip" : 123,
     "phone" : "Test",

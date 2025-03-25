@@ -7,6 +7,7 @@ import com.aboc.safetyNet.model.mapper.PersonMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.util.List;
@@ -52,37 +53,41 @@ public class PersonService {
         }
     }
 
-    public Person editDataPerson(String firstName, String lastName, String newAddress, String newCity, Integer newZip, String newPhone, String newEmail) throws IOException {
-        if (firstName != null && lastName != null) {
-            for (Person person : persons) {
-                if (firstName.equals(person.getFirstName()) && lastName.equals(person.getLastName())) {
-                    if (newAddress != null) {
-                        person.setAddress(newAddress);
+    public Person editDataPerson(Person person) throws IOException {
+        Person personUpdated = null;
+        if (person.getFirstName() != null && person.getLastName() != null) {
+            for (Person personDB : persons) {
+                if (person.equals(personDB)) {
+                    if (StringUtils.hasText(person.getAddress())) {
+                        personDB.setAddress(person.getAddress());
                         logger.info("Address modified");
                     }
-                    if (newCity != null) {
-                        person.setCity(newCity);
+                    if (StringUtils.hasText(person.getCity())) {
+                        personDB.setCity(person.getCity());
                         logger.info("City modified");
                     }
-                    if (newZip != null) {
-                        person.setZip(newZip);
+                    if (person.getZip() != null) {
+                        personDB.setZip(person.getZip());
                         logger.info("Zip modified");
                     }
-                    if (newPhone != null) {
-                        person.setPhone(newPhone);
+                    if (StringUtils.hasText(person.getPhone())) {
+                        personDB.setPhone(person.getPhone());
                         logger.info("Phone number modified");
                     }
-                    if (newEmail != null) {
-                        person.setEmail(newEmail);
+                    if (StringUtils.hasText(person.getEmail())) {
+                        personDB.setEmail(person.getEmail());
                         logger.info("email modified");
                     }
+                    personUpdated = personDB;
+                    break;
                 }
-                dataService.writeData();
-                logger.info("change saved successfully");
-                return person;
             }
         }
-        return null;
+        if(personUpdated != null) {
+            dataService.writeData();
+            logger.info("change saved successfully");
+        }
+        return personUpdated;
     }
 
     public Boolean deletePerson(String firstNameX, String lastNameY) throws IOException {

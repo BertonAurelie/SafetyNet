@@ -60,14 +60,8 @@ public class PersonController {
      * @return
      */
     @PutMapping
-    public ResponseEntity<Person> UpdatePerson(@RequestParam String firstName,
-                                               @RequestParam String lastName,
-                                               @RequestParam String address,
-                                               @RequestParam String city,
-                                               @RequestParam Integer zip,
-                                               @RequestParam String phone,
-                                               @RequestParam String email) throws IOException {
-        return new ResponseEntity<Person>(personService.editDataPerson(firstName, lastName, address, city, zip, phone, email), HttpStatus.NO_CONTENT);
+    public ResponseEntity<Person> UpdatePerson(@RequestBody Person person) throws IOException {
+        return new ResponseEntity<Person>(personService.editDataPerson(person), HttpStatus.NO_CONTENT);
     }
 }
 
