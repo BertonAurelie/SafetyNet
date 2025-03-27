@@ -3,10 +3,8 @@ package com.aboc.safetyNet.model.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
 
-@Data
-public class PersonDTO {
+public class PersonCreatedDTO {
 
     @NotNull(message = "firstName may not be empty")
     private String firstName;
@@ -30,7 +28,7 @@ public class PersonDTO {
     private String email;
 
     //Constructor
-    public PersonDTO() {
+    public PersonCreatedDTO() {
     }
 
     //GETTER / SETTER

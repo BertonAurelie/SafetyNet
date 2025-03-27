@@ -5,8 +5,13 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
-@Data
-public class PersonUpdateDto {
+
+public class PersonUpdatedDto {
+    @NotNull(message = "firstName may not be empty")
+    private String firstName;
+
+    @NotBlank(message = "lastName may not be empty")
+    private String lastName;
 
     private String address;
 
@@ -20,10 +25,18 @@ public class PersonUpdateDto {
     private String email;
 
     //Constructor
-    public PersonUpdateDto() {
+    public PersonUpdatedDto() {
     }
 
     //GETTER / SETTER
+
+
+    public String getFirstName() {return firstName;}
+    public void setFirstName(String firstName) {this.firstName = firstName;}
+
+    public String getLastName() {return lastName;}
+    public void setLastName(String lastName) {this.lastName = lastName;}
+
     public String getAddress() {return address;}
     public void setAddress(String address) {this.address = address;}
 

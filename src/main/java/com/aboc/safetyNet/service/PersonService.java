@@ -2,8 +2,10 @@ package com.aboc.safetyNet.service;
 
 import com.aboc.safetyNet.exception.SafetyNetBadRequestException;
 import com.aboc.safetyNet.model.Person;
-import com.aboc.safetyNet.model.dto.PersonDTO;
-import com.aboc.safetyNet.model.mapper.PersonMapper;
+import com.aboc.safetyNet.model.dto.PersonCreatedDTO;
+import com.aboc.safetyNet.model.dto.PersonUpdatedDto;
+import com.aboc.safetyNet.model.mapper.PersonCreatedMapper;
+import com.aboc.safetyNet.model.mapper.PersonUpdatedMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -28,24 +30,14 @@ public class PersonService {
         return persons;
     }
 
-    public Person foundData(String x) {
-        for (Person person : persons) {
-            if (x.equals(person.getEmail())) {
-                logger.info("Person found: " + person.toString());
-                return person;
-            }
-        }
-        return null;
-    }
-
-    public PersonDTO addNewPerson(PersonDTO personDto) throws IOException {
-        Person person = PersonMapper.toEntity(personDto);
+    public PersonCreatedDTO addNewPerson(PersonCreatedDTO personCreatedDto) throws IOException {
+        Person person = PersonCreatedMapper.toEntity(personCreatedDto);
         logger.info(person.toString());
         if (person != null) {
             persons.add(person);
             dataService.writeData();
             logger.info("person registered in the database");
-            return PersonMapper.toDto(person);
+            return PersonCreatedMapper.toDto(person);
         } else {
             logger.info(person.toString());
             logger.info("disabled person");
@@ -53,9 +45,10 @@ public class PersonService {
         }
     }
 
-    public Person editDataPerson(Person person) throws IOException {
+    public PersonUpdatedDto editPerson(PersonUpdatedDto personUpdatedDto) throws IOException {
+        Person person = PersonUpdatedMapper.toEntity(personUpdatedDto);
         Person personUpdated = null;
-        if (person.getFirstName() != null && person.getLastName() != null) {
+        if (StringUtils.hasText(person.getFirstName()) && StringUtils.hasText(person.getLastName())) {
             for (Person personDB : persons) {
                 if (person.equals(personDB)) {
                     if (StringUtils.hasText(person.getAddress())) {
@@ -83,11 +76,11 @@ public class PersonService {
                 }
             }
         }
-        if(personUpdated != null) {
+        if (personUpdated != null) {
             dataService.writeData();
             logger.info("change saved successfully");
         }
-        return personUpdated;
+        return PersonUpdatedMapper.toDto(person);
     }
 
     public Boolean deletePerson(String firstNameX, String lastNameY) throws IOException {
