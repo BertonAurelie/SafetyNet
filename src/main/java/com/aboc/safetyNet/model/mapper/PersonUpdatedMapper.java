@@ -1,7 +1,7 @@
 package com.aboc.safetyNet.model.mapper;
 
 import com.aboc.safetyNet.model.Person;
-import com.aboc.safetyNet.model.dto.PersonUpdatedDto;
+import com.aboc.safetyNet.model.dto.request.PersonUpdatedDto;
 
 public class PersonUpdatedMapper {
 

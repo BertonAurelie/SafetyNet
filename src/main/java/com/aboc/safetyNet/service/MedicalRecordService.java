@@ -2,7 +2,7 @@ package com.aboc.safetyNet.service;
 
 import com.aboc.safetyNet.exception.SafetyNetBadRequestException;
 import com.aboc.safetyNet.model.MedicalRecord;
-import com.aboc.safetyNet.model.dto.MedicalRecordDto;
+import com.aboc.safetyNet.model.dto.request.MedicalRecordDto;
 import com.aboc.safetyNet.model.mapper.MedicalRecordMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

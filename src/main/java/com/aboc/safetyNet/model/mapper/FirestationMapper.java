@@ -1,7 +1,7 @@
 package com.aboc.safetyNet.model.mapper;
 
 import com.aboc.safetyNet.model.Firestation;
-import com.aboc.safetyNet.model.dto.FirestationDto;
+import com.aboc.safetyNet.model.dto.request.FirestationDto;
 
 public class FirestationMapper {
 

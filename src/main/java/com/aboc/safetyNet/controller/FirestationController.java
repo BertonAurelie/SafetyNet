@@ -2,10 +2,10 @@ package com.aboc.safetyNet.controller;
 
 
 import com.aboc.safetyNet.model.Firestation;
-import com.aboc.safetyNet.model.dto.FirestationDto;
-import com.aboc.safetyNet.model.dto.PersonCreatedDTO;
-import com.aboc.safetyNet.model.dto.PersonUpdatedDto;
+import com.aboc.safetyNet.model.dto.request.FirestationDto;
+import com.aboc.safetyNet.model.dto.response.FirestationCoverageResponse;
 import com.aboc.safetyNet.service.FirestationService;
+import com.aboc.safetyNet.service.SafetyNetService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,16 +21,12 @@ import java.util.List;
 public class FirestationController {
     private static final Logger logger = LoggerFactory.getLogger(FirestationController.class);
     private final FirestationService firestationService;
+    private final SafetyNetService safetyNetService;
 
-    public FirestationController(FirestationService firestationService){
+    public FirestationController(FirestationService firestationService, SafetyNetService safetyNetService){
         this.firestationService = firestationService;
+        this.safetyNetService = safetyNetService;
         logger.info("loading FirestationController");
-    }
-
-    @GetMapping
-    public ResponseEntity<List<Firestation>> getAllFirestation(){
-        logger.info("loading getAllFirestation");
-        return new ResponseEntity<>(firestationService.getAllFirestation(), HttpStatus.OK);
     }
 
     @PostMapping
@@ -64,5 +60,10 @@ public class FirestationController {
             return new ResponseEntity<>(firestationDto, HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(firestationDto,  HttpStatus.CONFLICT);
+    }
+
+    @GetMapping
+    public ResponseEntity<FirestationCoverageResponse> getPersonWithStationNumber(@RequestParam Integer station){
+        return new ResponseEntity<>(safetyNetService.foundPersonWithStationNumberOfFirestation(station), HttpStatus.OK);
     }
 }

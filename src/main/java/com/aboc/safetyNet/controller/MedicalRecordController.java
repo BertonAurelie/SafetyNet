@@ -1,11 +1,7 @@
 package com.aboc.safetyNet.controller;
 
-import com.aboc.safetyNet.model.Firestation;
 import com.aboc.safetyNet.model.MedicalRecord;
-import com.aboc.safetyNet.model.dto.FirestationDto;
-import com.aboc.safetyNet.model.dto.MedicalRecordDto;
-import com.aboc.safetyNet.model.dto.PersonUpdatedDto;
-import com.aboc.safetyNet.service.FirestationService;
+import com.aboc.safetyNet.model.dto.request.MedicalRecordDto;
 import com.aboc.safetyNet.service.MedicalRecordService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;

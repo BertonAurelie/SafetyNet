@@ -1,9 +1,7 @@
 package com.aboc.safetyNet.model.mapper;
 
-import com.aboc.safetyNet.model.Firestation;
 import com.aboc.safetyNet.model.MedicalRecord;
-import com.aboc.safetyNet.model.dto.FirestationDto;
-import com.aboc.safetyNet.model.dto.MedicalRecordDto;
+import com.aboc.safetyNet.model.dto.request.MedicalRecordDto;
 
 public class MedicalRecordMapper {
 

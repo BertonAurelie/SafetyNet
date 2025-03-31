@@ -2,8 +2,8 @@ package com.aboc.safetyNet.service;
 
 import com.aboc.safetyNet.exception.SafetyNetBadRequestException;
 import com.aboc.safetyNet.model.Person;
-import com.aboc.safetyNet.model.dto.PersonCreatedDTO;
-import com.aboc.safetyNet.model.dto.PersonUpdatedDto;
+import com.aboc.safetyNet.model.dto.request.PersonCreatedDTO;
+import com.aboc.safetyNet.model.dto.request.PersonUpdatedDto;
 import com.aboc.safetyNet.model.mapper.PersonCreatedMapper;
 import com.aboc.safetyNet.model.mapper.PersonUpdatedMapper;
 import org.slf4j.Logger;

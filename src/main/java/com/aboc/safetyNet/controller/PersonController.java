@@ -1,8 +1,8 @@
 package com.aboc.safetyNet.controller;
 
 import com.aboc.safetyNet.model.Person;
-import com.aboc.safetyNet.model.dto.PersonCreatedDTO;
-import com.aboc.safetyNet.model.dto.PersonUpdatedDto;
+import com.aboc.safetyNet.model.dto.request.PersonCreatedDTO;
+import com.aboc.safetyNet.model.dto.request.PersonUpdatedDto;
 import com.aboc.safetyNet.service.PersonService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;

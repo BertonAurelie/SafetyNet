@@ -1,4 +1,4 @@
-package com.aboc.safetyNet.model.dto;
+package com.aboc.safetyNet.model.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

@@ -3,7 +3,7 @@ package com.aboc.safetyNet;
 
 import com.aboc.safetyNet.model.Data;
 import com.aboc.safetyNet.model.Person;
-import com.aboc.safetyNet.model.dto.PersonCreatedDTO;
+import com.aboc.safetyNet.model.dto.request.PersonCreatedDTO;
 import com.aboc.safetyNet.model.mapper.PersonCreatedMapper;
 import com.aboc.safetyNet.service.DataService;
 import com.aboc.safetyNet.service.PersonService;
