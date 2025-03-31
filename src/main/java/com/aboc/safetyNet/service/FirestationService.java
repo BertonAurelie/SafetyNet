@@ -43,7 +43,6 @@ public class FirestationService {
         }
     }
 
-    //TODO :: Ne fonctionne pas.
     public FirestationDto editFirestation(FirestationDto firestationDto) throws IOException {
         Firestation firestation = FirestationMapper.toEntity(firestationDto);
         Firestation firestationUpdated = null;

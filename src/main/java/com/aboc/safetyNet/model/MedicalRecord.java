@@ -2,6 +2,7 @@ package com.aboc.safetyNet.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class MedicalRecord {
     private String firstName;
@@ -44,4 +45,13 @@ public class MedicalRecord {
                 ", allergies=" + allergies +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MedicalRecord that = (MedicalRecord) o;
+        return Objects.equals(firstName, that.firstName) && Objects.equals(lastName, that.lastName);
+    }
+
 }

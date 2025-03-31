@@ -87,9 +87,9 @@ public class PersonService {
         boolean found = false;
         if (firstNameX != null && lastNameY != null) {
             logger.info("search for person to delete.");
-            for (Person person : persons) {
-                if (firstNameX.equals(person.getFirstName()) && lastNameY.equals(person.getLastName())) {
-                    persons.remove(person);
+            for (Person personDb : persons) {
+                if (firstNameX.equals(personDb.getFirstName()) && lastNameY.equals(personDb.getLastName())) {
+                    persons.remove(personDb);
                     dataService.writeData();
                     logger.info("person successfully deleted");
                     found = true;
