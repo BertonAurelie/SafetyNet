@@ -1,6 +1,7 @@
 package com.aboc.safetyNet.controller;
 
 import com.aboc.safetyNet.model.dto.response.ChildAlertResponse;
+import com.aboc.safetyNet.model.dto.response.FireAddressResponse;
 import com.aboc.safetyNet.model.dto.response.PhoneAlertResponse;
 import com.aboc.safetyNet.service.SafetyNetService;
 import org.slf4j.Logger;
@@ -32,5 +33,10 @@ public class SafetyNetController {
     @GetMapping("phoneAlert")
     public ResponseEntity<PhoneAlertResponse> getPhoneAlert(@RequestParam Integer station){
         return new ResponseEntity<>(safetyNetService.phoneAlert(station), HttpStatus.OK);
+    }
+
+    @GetMapping("/fire")
+    public ResponseEntity<FireAddressResponse> fireGetAddressPeople(@RequestParam String address){
+        return new ResponseEntity<>(safetyNetService.fire(address), HttpStatus.OK);
     }
 }

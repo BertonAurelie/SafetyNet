@@ -4,10 +4,7 @@ import com.aboc.safetyNet.model.Firestation;
 import com.aboc.safetyNet.model.MedicalRecord;
 import com.aboc.safetyNet.model.Person;
 import com.aboc.safetyNet.model.dto.response.*;
-import com.aboc.safetyNet.model.mapper.ChildAlertMapper;
-import com.aboc.safetyNet.model.mapper.PersonResponseMapper;
-import com.aboc.safetyNet.model.mapper.PhoneAlertMapper;
-import com.aboc.safetyNet.model.mapper.TargetChildMapper;
+import com.aboc.safetyNet.model.mapper.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -29,10 +26,6 @@ public class SafetyNetService {
     private List<MedicalRecord> medicalRecords;
     private final static Logger logger = LoggerFactory.getLogger(SafetyNetService.class);
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy").withLocale(Locale.FRANCE);
-
-    private FirestationService firestationService;
-    private PersonService personService;
-    private MedicalRecord medicalRecord;
 
     public SafetyNetService(DataService dataService) throws IOException {
         this.dataService = dataService;
@@ -102,13 +95,13 @@ public class SafetyNetService {
         return childAlertResponse;
     }
 
-    public PhoneAlertResponse phoneAlert(Integer stationNumber){
+    public PhoneAlertResponse phoneAlert(Integer stationNumber) {
         List<String> phonesList = new ArrayList<>();
-        if(stationNumber != null){
-            for(Firestation firestation : firestations){
-                if(stationNumber.equals(firestation.getStation())){
-                    for(Person person : persons){
-                        if(person.getAddress().equals(firestation.getAddress())){
+        if (stationNumber != null) {
+            for (Firestation firestation : firestations) {
+                if (stationNumber.equals(firestation.getStation())) {
+                    for (Person person : persons) {
+                        if (person.getAddress().equals(firestation.getAddress())) {
                             phonesList.add(person.getPhone());
                         }
                     }
@@ -117,6 +110,37 @@ public class SafetyNetService {
         }
         PhoneAlertResponse phoneAlertResponse = PhoneAlertMapper.toDto(phonesList);
         return phoneAlertResponse;
+    }
+
+    public FireAddressResponse fire(String address) {
+        List<FirePersonInfoResponse> firePersonInfoResponses = new ArrayList<>();
+        Integer station = null;
+
+        if (address != null) {
+            for (Firestation firestation : firestations) {
+                if (address.equals(firestation.getAddress())) {
+                    station = firestation.getStation();
+                    for (Person person : persons) {
+                        if (person.getAddress().equals(firestation.getAddress())) {
+                            FirePersonInfoResponse firePersonInfoResponse = FirePersonInfoMapper.toDto(person);
+                            firePersonInfoResponses.add(firePersonInfoResponse);
+
+                            for (MedicalRecord medicalRecord : medicalRecords) {
+                                if (person.getFirstName().equals(medicalRecord.getFirstName()) && person.getLastName().equals(medicalRecord.getLastName())) {
+                                    long agePerson = getElapsedYears(medicalRecord.getBirthdate());
+                                    firePersonInfoResponse.setAge(agePerson);
+                                    firePersonInfoResponse.setMedicalRecord(medicalRecord.getMedications());
+                                    firePersonInfoResponse.setAllergies(medicalRecord.getAllergies());
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        FireAddressResponse fireAddressResponse = new FireAddressResponse(station, firePersonInfoResponses);
+
+        return fireAddressResponse;
     }
 
     private List<FamilyMemberResponse> getFamilyMembers(Person person) {
@@ -139,8 +163,6 @@ public class SafetyNetService {
     }
 
 
-
-
     private LocalDate convertToLocalDate(String strDate) {
         LocalDate date = LocalDate.parse(strDate, formatter);
         return date;
@@ -153,21 +175,6 @@ public class SafetyNetService {
         return elapsedYears;
     }
 }
-
-
-
-//localhost:8080/phoneAlert?firestation=<firestation_number>
-//Cette url doit retourner une liste des numéros de téléphone des résidents desservis
-//par la caserne de pompiers. Nous l'utiliserons pour envoyer des messages texte
-//d'urgence à des foyers spécifiques.
-
-
-//localhost:8080/fire?address=<address>
-//Cette url doit retourner la liste des habitants vivant à l’adresse donnée ainsi que le
-//numéro de la caserne de pompiers la desservant. La liste doit inclure le nom, le
-//numéro de téléphone, l'âge et les antécédents médicaux (médicaments, posologie et
-//allergies) de chaque personne.
-
 
 //localhost:8080/flood/stations?stations=<a list of
 //station_numbers>
