@@ -186,18 +186,26 @@
   }, {
     "firstName" : "Test",
     "lastName" : "Test",
-    "address" : "TestUpdated",
+    "address" : "Chambre",
     "city" : "Test",
     "zip" : 123,
-    "phone" : "Test",
+    "phone" : "Test1",
     "email" : "test@email.com"
   }, {
-    "firstName" : "Test32",
+    "firstName" : "Test2",
     "lastName" : "Test",
-    "address" : "Test",
+    "address" : "Salon",
     "city" : "Test",
     "zip" : 123,
-    "phone" : "Test",
+    "phone" : "Test2",
+    "email" : "test@test.com"
+  },{
+    "firstName" : "Test3",
+    "lastName" : "Test",
+    "address" : "Bureau",
+    "city" : "Test",
+    "zip" : 123,
+    "phone" : "Test3",
     "email" : "test@test.com"
   } ],
   "firestations" : [ {
@@ -240,7 +248,13 @@
     "address" : "951 LoneTree Rd",
     "station" : 2
   }, {
-    "address" : "Test",
+    "address" : "Chambre",
+    "station" : 5
+  },{
+    "address" : "Salon",
+    "station" : 5
+  },{
+    "address" : "Bureau",
     "station" : 5
   } ],
   "medicalrecords" : [ {

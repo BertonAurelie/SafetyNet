@@ -6,6 +6,7 @@ import com.aboc.safetyNet.model.Person;
 import com.aboc.safetyNet.model.dto.response.*;
 import com.aboc.safetyNet.model.mapper.ChildAlertMapper;
 import com.aboc.safetyNet.model.mapper.PersonResponseMapper;
+import com.aboc.safetyNet.model.mapper.PhoneAlertMapper;
 import com.aboc.safetyNet.model.mapper.TargetChildMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -101,6 +102,23 @@ public class SafetyNetService {
         return childAlertResponse;
     }
 
+    public PhoneAlertResponse phoneAlert(Integer stationNumber){
+        List<String> phonesList = new ArrayList<>();
+        if(stationNumber != null){
+            for(Firestation firestation : firestations){
+                if(stationNumber.equals(firestation.getStation())){
+                    for(Person person : persons){
+                        if(person.getAddress().equals(firestation.getAddress())){
+                            phonesList.add(person.getPhone());
+                        }
+                    }
+                }
+            }
+        }
+        PhoneAlertResponse phoneAlertResponse = PhoneAlertMapper.toDto(phonesList);
+        return phoneAlertResponse;
+    }
+
     private List<FamilyMemberResponse> getFamilyMembers(Person person) {
         List<FamilyMemberResponse> familyMember = new ArrayList<>();
 
@@ -119,6 +137,8 @@ public class SafetyNetService {
         }
         return familyMember;
     }
+
+
 
 
     private LocalDate convertToLocalDate(String strDate) {
