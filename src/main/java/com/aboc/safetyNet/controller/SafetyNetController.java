@@ -2,6 +2,7 @@ package com.aboc.safetyNet.controller;
 
 import com.aboc.safetyNet.model.dto.response.ChildAlertResponse;
 import com.aboc.safetyNet.model.dto.response.FireAddressResponse;
+import com.aboc.safetyNet.model.dto.response.FloodStationsResponse;
 import com.aboc.safetyNet.model.dto.response.PhoneAlertResponse;
 import com.aboc.safetyNet.service.SafetyNetService;
 import org.slf4j.Logger;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -38,5 +40,14 @@ public class SafetyNetController {
     @GetMapping("/fire")
     public ResponseEntity<FireAddressResponse> fireGetAddressPeople(@RequestParam String address){
         return new ResponseEntity<>(safetyNetService.fire(address), HttpStatus.OK);
+    }
+
+    @GetMapping("/flood/stations")
+    public ResponseEntity<FloodStationsResponse> floodGetAddressPeople(@RequestParam String stations){
+        List<Integer> myList = new ArrayList<>();
+        for (String s : stations.split(",")) {
+            myList.add(Integer.valueOf(s));
+        }
+        return new ResponseEntity<>(safetyNetService.flood(myList), HttpStatus.OK);
     }
 }

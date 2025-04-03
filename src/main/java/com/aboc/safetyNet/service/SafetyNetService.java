@@ -122,15 +122,15 @@ public class SafetyNetService {
                     station = firestation.getStation();
                     for (Person person : persons) {
                         if (person.getAddress().equals(firestation.getAddress())) {
-                            FirePersonInfoResponse firePersonInfoResponse = FirePersonInfoMapper.toDto(person);
-                            firePersonInfoResponses.add(firePersonInfoResponse);
+                            FirePersonInfoResponse personDto = FirePersonInfoMapper.toDto(person);
+                            firePersonInfoResponses.add(personDto);
 
                             for (MedicalRecord medicalRecord : medicalRecords) {
                                 if (person.getFirstName().equals(medicalRecord.getFirstName()) && person.getLastName().equals(medicalRecord.getLastName())) {
                                     long agePerson = getElapsedYears(medicalRecord.getBirthdate());
-                                    firePersonInfoResponse.setAge(agePerson);
-                                    firePersonInfoResponse.setMedicalRecord(medicalRecord.getMedications());
-                                    firePersonInfoResponse.setAllergies(medicalRecord.getAllergies());
+                                    personDto.setAge(agePerson);
+                                    personDto.setMedicalRecord(medicalRecord.getMedications());
+                                    personDto.setAllergies(medicalRecord.getAllergies());
                                 }
                             }
                         }
@@ -142,6 +142,44 @@ public class SafetyNetService {
 
         return fireAddressResponse;
     }
+
+    public FloodStationsResponse flood(List<Integer> stations) {
+        List<FloodHouseResponse> floodHouse = new ArrayList<>();
+        FloodStationsResponse floodStationsResponse = new FloodStationsResponse();
+
+        for (int i = 0; i < stations.size(); i++) {
+            String address = null;
+            for (Firestation firestation : firestations) {
+                List<FirePersonInfoResponse> PersonsAtThisAddress = new ArrayList<>();
+
+                //Si ma station de i est = firestation station
+                if (firestation.getStation().equals(stations.get(i))) {
+                    address = firestation.getAddress();
+                    for (Person person : persons) {
+                        //Si ma personne a la même adresse que ma firestation
+                        if (person.getAddress().equals(firestation.getAddress())) {
+                            FirePersonInfoResponse personDto = FirePersonInfoMapper.toDto(person);
+                            PersonsAtThisAddress.add(personDto);
+
+                            for (MedicalRecord medicalRecord : medicalRecords) {
+                                if (person.getFirstName().equals(medicalRecord.getFirstName()) && person.getLastName().equals(medicalRecord.getLastName())) {
+                                    long agePerson = getElapsedYears(medicalRecord.getBirthdate());
+                                    personDto.setAge(agePerson);
+                                    personDto.setMedicalRecord(medicalRecord.getMedications());
+                                    personDto.setAllergies(medicalRecord.getAllergies());
+                                }
+                            }
+                        }
+                    }
+                    FloodHouseResponse floodHouseResponse = new FloodHouseResponse(address, PersonsAtThisAddress);
+                    floodHouse.add(floodHouseResponse);
+                }
+            }
+            floodStationsResponse.setFloodHouse(floodHouse);
+        }
+        return floodStationsResponse;
+    }
+
 
     private List<FamilyMemberResponse> getFamilyMembers(Person person) {
         List<FamilyMemberResponse> familyMember = new ArrayList<>();

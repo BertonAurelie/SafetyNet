@@ -184,8 +184,8 @@
     "phone" : "841-874-7458",
     "email" : "gramps@email.com"
   }, {
-    "firstName" : "Test",
-    "lastName" : "Test",
+    "firstName" : "Test1",
+    "lastName" : "Test1",
     "address" : "Chambre",
     "city" : "Test",
     "zip" : 123,
@@ -193,7 +193,7 @@
     "email" : "test@email.com"
   }, {
     "firstName" : "Test2",
-    "lastName" : "Test",
+    "lastName" : "Test2",
     "address" : "Salon",
     "city" : "Test",
     "zip" : 123,
@@ -201,7 +201,7 @@
     "email" : "test@test.com"
   },{
     "firstName" : "Test3",
-    "lastName" : "Test",
+    "lastName" : "Test3",
     "address" : "Bureau",
     "city" : "Test",
     "zip" : 123,
@@ -395,5 +395,23 @@
     "birthdate" : "08/06/1945",
     "medications" : [ "tradoxidine:400mg" ],
     "allergies" : [ ]
+  },{
+    "firstName" : "Test",
+    "lastName" : "Test1",
+    "birthdate" : "11/11/1994",
+    "medications" : [ "Test1:400mg"],
+    "allergies" : [ ]
+  }, {
+    "firstName" : "Test2",
+    "lastName" : "Test2",
+    "birthdate" : "03/06/1994",
+    "medications" : [ ],
+    "allergies" : ["Test2:400mg" ]
+  },{
+    "firstName" : "Test3",
+    "lastName" : "Test3",
+    "birthdate" : "03/06/1994",
+    "medications" : ["Test3:400mg" ],
+    "allergies" : ["Test3:400mg" ]
   } ]
 }

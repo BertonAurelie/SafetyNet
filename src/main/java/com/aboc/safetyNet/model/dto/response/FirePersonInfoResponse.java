@@ -12,6 +12,8 @@ public class FirePersonInfoResponse {
     public FirePersonInfoResponse() {
     }
 
+
+
     public FirePersonInfoResponse(String lastName, String phone, Long age, List<String> medicalRecord, List<String> allergies) {
         this.lastName = lastName;
         this.phone = phone;
