@@ -1,9 +1,6 @@
 package com.aboc.safetyNet.controller;
 
-import com.aboc.safetyNet.model.dto.response.ChildAlertResponse;
-import com.aboc.safetyNet.model.dto.response.FireAddressResponse;
-import com.aboc.safetyNet.model.dto.response.FloodStationsResponse;
-import com.aboc.safetyNet.model.dto.response.PhoneAlertResponse;
+import com.aboc.safetyNet.model.dto.response.*;
 import com.aboc.safetyNet.service.SafetyNetService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,33 +18,43 @@ public class SafetyNetController {
     private static final Logger logger = LoggerFactory.getLogger(SafetyNetController.class);
     private final SafetyNetService safetyNetService;
 
-    public SafetyNetController(SafetyNetService safetyNetService){
-       this.safetyNetService = safetyNetService;
-       logger.info("loading SafetyNetController");
+    public SafetyNetController(SafetyNetService safetyNetService) {
+        this.safetyNetService = safetyNetService;
+        logger.info("loading SafetyNetController");
     }
 
 
     @GetMapping("/childAlert")
-    public ResponseEntity<ChildAlertResponse> getchildAlert(String address){
+    public ResponseEntity<ChildAlertResponse> getchildAlert(String address) {
         return new ResponseEntity<>(safetyNetService.getChildrenAtAddress(address), HttpStatus.OK);
     }
 
     @GetMapping("phoneAlert")
-    public ResponseEntity<PhoneAlertResponse> getPhoneAlert(@RequestParam Integer station){
+    public ResponseEntity<PhoneAlertResponse> getPhoneAlert(@RequestParam Integer station) {
         return new ResponseEntity<>(safetyNetService.phoneAlert(station), HttpStatus.OK);
     }
 
     @GetMapping("/fire")
-    public ResponseEntity<FireAddressResponse> fireGetAddressPeople(@RequestParam String address){
+    public ResponseEntity<FireAddressResponse> fireGetAddressPeople(@RequestParam String address) {
         return new ResponseEntity<>(safetyNetService.fire(address), HttpStatus.OK);
     }
 
     @GetMapping("/flood/stations")
-    public ResponseEntity<FloodStationsResponse> floodGetAddressPeople(@RequestParam String stations){
+    public ResponseEntity<FloodStationsResponse> floodGetAddressPeople(@RequestParam String stations) {
         List<Integer> myList = new ArrayList<>();
         for (String s : stations.split(",")) {
             myList.add(Integer.valueOf(s));
         }
         return new ResponseEntity<>(safetyNetService.flood(myList), HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<PersonInfoResponse>> getPersonInfo(@RequestParam String lastName) {
+        return new ResponseEntity<>(safetyNetService.getPersonsByLastName(lastName), HttpStatus.OK);
+    }
+
+    @GetMapping("/communityEmail")
+    public ResponseEntity<List<String>> getEmailByCity(@RequestParam String city) {
+        return new ResponseEntity<>(safetyNetService.getEmailsByCity(city), HttpStatus.OK);
     }
 }

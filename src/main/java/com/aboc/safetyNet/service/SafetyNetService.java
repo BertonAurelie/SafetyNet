@@ -39,6 +39,14 @@ public class SafetyNetService {
         List<PersonCoveredByStationResponse> personOfStationDto = new ArrayList<>();
         int adultCount = 0;
         int childrenCount = 0;
+        //
+        var firestationAddresses = firestations.stream()
+                .filter(s -> s.getStation().equals(stationNumber))
+                .map(s -> s.getAddress())
+                .toList();
+
+        var resultPerson = persons.stream()
+                .filter(p -> firestationAddresses.contains(p.getAddress()));
 
         if (stationNumber != null) {
             for (Firestation firestation : firestations) {
@@ -119,22 +127,8 @@ public class SafetyNetService {
         if (address != null) {
             for (Firestation firestation : firestations) {
                 if (address.equals(firestation.getAddress())) {
+                    firePersonInfoResponses = getPersonInfo(firestation);
                     station = firestation.getStation();
-                    for (Person person : persons) {
-                        if (person.getAddress().equals(firestation.getAddress())) {
-                            FirePersonInfoResponse personDto = FirePersonInfoMapper.toDto(person);
-                            firePersonInfoResponses.add(personDto);
-
-                            for (MedicalRecord medicalRecord : medicalRecords) {
-                                if (person.getFirstName().equals(medicalRecord.getFirstName()) && person.getLastName().equals(medicalRecord.getLastName())) {
-                                    long agePerson = getElapsedYears(medicalRecord.getBirthdate());
-                                    personDto.setAge(agePerson);
-                                    personDto.setMedicalRecord(medicalRecord.getMedications());
-                                    personDto.setAllergies(medicalRecord.getAllergies());
-                                }
-                            }
-                        }
-                    }
                 }
             }
         }
@@ -150,34 +144,77 @@ public class SafetyNetService {
         for (int i = 0; i < stations.size(); i++) {
             String address = null;
             for (Firestation firestation : firestations) {
-                List<FirePersonInfoResponse> PersonsAtThisAddress = new ArrayList<>();
 
-                //Si ma station de i est = firestation station
                 if (firestation.getStation().equals(stations.get(i))) {
                     address = firestation.getAddress();
-                    for (Person person : persons) {
-                        //Si ma personne a la même adresse que ma firestation
-                        if (person.getAddress().equals(firestation.getAddress())) {
-                            FirePersonInfoResponse personDto = FirePersonInfoMapper.toDto(person);
-                            PersonsAtThisAddress.add(personDto);
-
-                            for (MedicalRecord medicalRecord : medicalRecords) {
-                                if (person.getFirstName().equals(medicalRecord.getFirstName()) && person.getLastName().equals(medicalRecord.getLastName())) {
-                                    long agePerson = getElapsedYears(medicalRecord.getBirthdate());
-                                    personDto.setAge(agePerson);
-                                    personDto.setMedicalRecord(medicalRecord.getMedications());
-                                    personDto.setAllergies(medicalRecord.getAllergies());
-                                }
-                            }
-                        }
-                    }
+                    List<FirePersonInfoResponse> PersonsAtThisAddress = getPersonInfo(firestation);
                     FloodHouseResponse floodHouseResponse = new FloodHouseResponse(address, PersonsAtThisAddress);
                     floodHouse.add(floodHouseResponse);
                 }
             }
-            floodStationsResponse.setFloodHouse(floodHouse);
         }
+        floodStationsResponse.setFloodHouse(floodHouse);
         return floodStationsResponse;
+    }
+
+    public List<PersonInfoResponse> getPersonsByLastName(String lastName) {
+        List<PersonInfoResponse> personInfoList = new ArrayList<>();
+
+        if (lastName != null) {
+            for (Person person : persons) {
+                if (person.getLastName().equals(lastName)) {
+                    PersonInfoResponse personDto = PersonInfoMapper.toDto(person);
+
+                    for (MedicalRecord medicalRecord : medicalRecords) {
+                        if (person.getLastName().equals(medicalRecord.getLastName()) && person.getFirstName().equals(medicalRecord.getFirstName())) {
+                            long agePerson = getElapsedYears(medicalRecord.getBirthdate());
+                            personDto.setAge(agePerson);
+                            personDto.setMedications(medicalRecord.getMedications());
+                            personDto.setAllergies(medicalRecord.getAllergies());
+
+                            personInfoList.add(personDto);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return personInfoList;
+    }
+
+    public List<String> getEmailsByCity(String city) {
+        List<String> personInfoList = new ArrayList<>();
+
+        if (city != null) {
+            for (Person person : persons) {
+                if (person.getCity().equals(city)) {
+                    personInfoList.add(person.getEmail());
+                }
+            }
+        }
+
+        return personInfoList;
+    }
+
+    private List<FirePersonInfoResponse> getPersonInfo(Firestation firestation) {
+        List<FirePersonInfoResponse> PersonsAtThisAddress = new ArrayList<>();
+        for (Person person : persons) {
+            if (person.getAddress().equals(firestation.getAddress())) {
+                FirePersonInfoResponse personDto = FirePersonInfoMapper.toDto(person);
+                PersonsAtThisAddress.add(personDto);
+
+                for (MedicalRecord medicalRecord : medicalRecords) {
+                    if (person.getFirstName().equals(medicalRecord.getFirstName()) && person.getLastName().equals(medicalRecord.getLastName())) {
+                        long agePerson = getElapsedYears(medicalRecord.getBirthdate());
+                        personDto.setAge(agePerson);
+                        personDto.setMedicalRecord(medicalRecord.getMedications());
+                        personDto.setAllergies(medicalRecord.getAllergies());
+                        break;
+                    }
+                }
+            }
+        }
+        return PersonsAtThisAddress;
     }
 
 
@@ -185,7 +222,7 @@ public class SafetyNetService {
         List<FamilyMemberResponse> familyMember = new ArrayList<>();
 
         for (Person family : persons) {
-            if (family.getAddress().equals(person.getAddress()) && !family.getFirstName().equals(person.getFirstName()) && !family.getLastName().equals(person.getLastName())) {
+            if (family.getAddress().equals(person.getAddress()) && family != person) {
                 FamilyMemberResponse familyMemberResponse = ChildAlertMapper.toDto(family);
 
                 familyMember.add(familyMemberResponse);
@@ -213,23 +250,5 @@ public class SafetyNetService {
         return elapsedYears;
     }
 }
-
-//localhost:8080/flood/stations?stations=<a list of
-//station_numbers>
-//Cette url doit retourner une liste de tous les foyers desservis par la caserne. Cette
-//liste doit regrouper les personnes par adresse. Elle doit aussi inclure le nom, le
-//numéro de téléphone et l'âge des habitants, et faire figurer leurs antécédents
-//médicaux (médicaments, posologie et allergies) à côté de chaque nom.
-
-
-//localhost:8080/personInfolastName=<lastName>
-//Cette url doit retourner le nom, l'adresse, l'âge, l'adresse mail et les antécédents
-//médicaux (médicaments, posologie et allergies) de chaque habitant. Si plusieurs
-//personnes portent le même nom, elles doivent toutes apparaître.
-
-
-//localhost:8080/communityEmail?city=<city>
-//Cette url doit retourner les adresses mail de tous les habitants de la ville.
-
 
 
