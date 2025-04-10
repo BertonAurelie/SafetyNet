@@ -51,7 +51,6 @@ public class FirestationController {
      *
      * @return
      */
-    //TODO::FAIRE THROW AJOUTER NOUVELLE EXCEPTION DANS LE GLOBALEXCEPTIONGHANDLER. THROW CONFLICT
     @PutMapping
     public ResponseEntity<FirestationDto> UpdateFirestation(@RequestBody FirestationDto firestation) throws IOException {
         FirestationDto firestationDto = firestationService.editFirestation(firestation);

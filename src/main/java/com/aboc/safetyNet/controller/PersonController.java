@@ -64,7 +64,7 @@ public class PersonController {
      * @return person updated
      */
     @PutMapping
-    public ResponseEntity<PersonUpdatedDto> UpdatePerson(@RequestBody PersonUpdatedDto person) throws IOException {
-        return new ResponseEntity<>(personService.editPerson(person), HttpStatus.NO_CONTENT);
+    public ResponseEntity<PersonUpdatedDto> updatePerson(@RequestBody PersonUpdatedDto person) throws IOException {
+        return new ResponseEntity<>(personService.editPerson(person), HttpStatus.OK);
     }
 }

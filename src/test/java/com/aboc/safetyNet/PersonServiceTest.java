@@ -1,12 +1,15 @@
 package com.aboc.safetyNet;
 
 
+import com.aboc.safetyNet.exception.SafetyNetBadRequestException;
 import com.aboc.safetyNet.model.Data;
 import com.aboc.safetyNet.model.Person;
 import com.aboc.safetyNet.model.dto.request.PersonCreatedDTO;
+import com.aboc.safetyNet.model.dto.request.PersonUpdatedDto;
 import com.aboc.safetyNet.model.mapper.PersonCreatedMapper;
 import com.aboc.safetyNet.service.DataService;
 import com.aboc.safetyNet.service.PersonService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -50,6 +53,26 @@ public class PersonServiceTest {
     }
 
     @Test
+    public void updatePersonTest() throws IOException {
+        PersonUpdatedDto updatedPerson = new PersonUpdatedDto();
+        updatedPerson.setFirstName("testFirstName");
+        updatedPerson.setLastName("testLastName");
+        updatedPerson.setAddress("testUpdated");
+        updatedPerson.setCity("testUpdated");
+        updatedPerson.setZip(333);
+        updatedPerson.setPhone("testUpdated");
+        updatedPerson.setEmail("testUpdated@mail.com");
+        personService.editPerson(updatedPerson);
+
+        List<Person> result = personService.getAllPersons();
+        assertEquals("testUpdated", result.get(0).getAddress());
+        assertEquals("testUpdated", result.get(0).getCity());
+        assertEquals("testUpdated", result.get(0).getPhone());
+        assertEquals("testUpdated@mail.com", result.get(0).getEmail());
+        assertEquals(333, result.get(0).getZip());
+    }
+
+    @Test
     public void addNewPersonTest() throws IOException {
         Person person = new Person("new", "new", "new", "new", 123, "new", "new");
         PersonCreatedDTO addThisPerson = PersonCreatedMapper.toDto(person);
@@ -58,16 +81,6 @@ public class PersonServiceTest {
         List<Person> result = personService.getAllPersons();
         assertEquals(2, result.size());
     }
-    
-   // @Test
-    ///public void editDataObjectTest() throws IOException {
-        //personService.editDataPerson("testFirstName", "testLastName", null, null, null, null, "testEmail");
-
-    //    List<Person> result = personService.getAllPersons();
-
-    //    assertEquals(1, result.size());
-    //    assertEquals("testEmail", result.get(0).getEmail());
-   // }
 
     @Test
     public void deleteDataObjectTest() throws IOException {
@@ -76,6 +89,16 @@ public class PersonServiceTest {
 
         assertNotNull(result);
         assertEquals(0, result.size());
+    }
+
+    @Test
+    public void noDeleteDataObjectTest() throws IOException {
+        List<Person> result = personService.getAllPersons();
+
+        assertFalse(personService.deletePerson("testFirstName", "xx"));
+        assertNotNull(result);
+        assertEquals(1, result.size());
+
     }
 }
 

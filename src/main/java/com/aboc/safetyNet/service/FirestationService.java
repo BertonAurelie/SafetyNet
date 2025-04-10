@@ -23,46 +23,77 @@ public class FirestationService {
         firestations = dataService.loadFileData().getFirestations();
     }
 
+    /**
+     * Retrieve the full list of firestation from data file.
+     * @return a list of {@Link Firestation}
+     */
     public List<Firestation> getAllFirestation() {
-        System.out.println(firestations);
+        logger.info("Loading list of all firestation.");
         return firestations;
     }
 
+
+    /**
+     * Add new firestation to the list and save it to the data file.
+     * @param firestationDto
+     * @return the firestation added
+     * @throws IOException if the data can't be saved
+     * @throws SafetyNetBadRequestException if the firestation is incomplete
+     */
     public FirestationDto addNewFirestation(FirestationDto firestationDto) throws IOException {
         Firestation firestation = FirestationMapper.toEntity(firestationDto);
-        logger.info(firestation.toString());
+        logger.info("Attempting to add firestation: {}",firestation);
         if (firestation != null) {
             firestations.add(firestation);
             dataService.writeData();
-            logger.info("firestation registered in the database");
+            logger.info("firestation successfully added.");
             return FirestationMapper.toDto(firestation);
         } else {
-            logger.info(firestation.toString());
-            logger.info("disabled firestation");
+            logger.warn("Invalid firestation data received.");
             throw new SafetyNetBadRequestException("firestation should be full");
         }
     }
 
+    /**
+     * Update an existing firestation's details.
+     * Matches by address
+     * @param firestationDto the firestation data with updated fields
+     * @return the updated firestation
+     * @throws IOException if the data cannot be saved
+     */
     public FirestationDto editFirestation(FirestationDto firestationDto) throws IOException {
-        Firestation firestation = FirestationMapper.toEntity(firestationDto);
         Firestation firestationUpdated = null;
-        if (StringUtils.hasText(firestation.getAddress()) && firestation.getStation() != null) {
-            for (Firestation firestationDB : firestations) {
-                if (firestation.equals(firestationDB)) {
-                    firestationDB.setStation(firestation.getStation());
-                    logger.info("Station modified");
-                    firestationUpdated = firestationDB;
-                    break;
+        try {
+            Firestation firestation = FirestationMapper.toEntity(firestationDto);
+            if (StringUtils.hasText(firestation.getAddress()) && firestation.getStation() != null) {
+                for (Firestation firestationDB : firestations) {
+                    if (firestation.equals(firestationDB)) {
+                        // Update each field if the new value is present
+                        firestationDB.setStation(firestation.getStation());
+                        logger.info("Station updated");
+                        firestationUpdated = firestationDB;
+                        break;
+                    }
                 }
             }
-        }
-        if (firestationUpdated != null) {
-            dataService.writeData();
-            logger.info("change saved successfully");
+            if (firestationUpdated != null) {
+                dataService.writeData();
+                logger.info("change saved successfully");
+            }
+        } catch (NullPointerException | IllegalArgumentException e) {
+            logger.warn("Invalid input while editing firestation: {}", e.getMessage());
+            throw new SafetyNetBadRequestException("firestation should be full");
         }
         return FirestationMapper.toDto(firestationUpdated);
     }
 
+    /**
+     * Delete a firestation identified by address and station number.
+     * @param adressX the address of the firestation
+     * @param stationY the number station of the firestation
+     * @return true if the firestation was found and deleted, false otherwise
+     * @throws IOException if the data can't be deleted
+     */
     public Boolean deleteFirestation(String adressX, Integer stationY) throws IOException {
         boolean found = false;
         if (StringUtils.hasText(adressX) && stationY != null) {

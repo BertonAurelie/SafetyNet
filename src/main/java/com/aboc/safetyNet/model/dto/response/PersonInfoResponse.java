@@ -7,21 +7,19 @@ public class PersonInfoResponse {
     private String address;
     private Long age;
     private String email;
-    private String city;
     private List<String> medications;
     private List<String> allergies;
 
     public PersonInfoResponse() {
     }
 
-    public PersonInfoResponse(String lastName, String address,String city, Long age, String email, List<String> medications, List<String> allergies) {
+    public PersonInfoResponse(String lastName, String address,Long age, String email, List<String> medications, List<String> allergies) {
         this.lastName = lastName;
         this.address = address;
         this.age = age;
         this.email = email;
         this.medications = medications;
         this.allergies = allergies;
-        this.city = city;
     }
 
     public String getLastName() {
@@ -72,11 +70,4 @@ public class PersonInfoResponse {
         this.allergies = allergies;
     }
 
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
 }

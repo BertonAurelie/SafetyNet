@@ -34,49 +34,57 @@ public class SafetyNetService {
         medicalRecords = dataService.loadFileData().getMedicalrecords();
     }
 
+    /**
+     * Retrieve persons covered by a fire station number.
+     * includes the count of adults and children(age <= 18).
+     *
+     * @param stationNumber the fire station number
+     * @return FirestationCoverageResponse with list of persons & count of adults/children
+     */
     public FirestationCoverageResponse foundPersonWithStationNumberOfFirestation(Integer stationNumber) {
-        List<Person> personOfStation = new ArrayList<>();
         List<PersonCoveredByStationResponse> personOfStationDto = new ArrayList<>();
         int adultCount = 0;
         int childrenCount = 0;
-        //
+
+        // Get all addresses linked to this firestation
         var firestationAddresses = firestations.stream()
                 .filter(s -> s.getStation().equals(stationNumber))
                 .map(s -> s.getAddress())
                 .toList();
 
-        var resultPerson = persons.stream()
-                .filter(p -> firestationAddresses.contains(p.getAddress()));
+        // Get all persons with the same address
+        var coveredPersons = persons.stream()
+                .filter(p -> firestationAddresses.contains(p.getAddress()))
+                .toList();
 
         if (stationNumber != null) {
-            for (Firestation firestation : firestations) {
-                if (stationNumber.equals(firestation.getStation())) {
-                    for (Person person : persons) {
-                        if (person.getAddress().equals(firestation.getAddress())) {
-                            personOfStation.add(person);
+            logger.info("searching for people covered by fire station {}", stationNumber);
+            for (Person person : coveredPersons) {
+                personOfStationDto.add(PersonResponseMapper.toDto(person));
 
-                            for (MedicalRecord medicalRecord : medicalRecords) {
-                                if (person.getFirstName().equals(medicalRecord.getFirstName()) && person.getLastName().equals(medicalRecord.getLastName())) {
-                                    if (getElapsedYears(medicalRecord.getBirthdate()) <= 18) {
-                                        childrenCount++;
-                                    } else {
-                                        adultCount++;
-                                    }
-                                }
-                            }
+                for (MedicalRecord medicalRecord : medicalRecords) {
+                    if (person.getFirstName().equals(medicalRecord.getFirstName()) && person.getLastName().equals(medicalRecord.getLastName())) {
+                        if (getElapsedYears(medicalRecord.getBirthdate()) <= 18) {
+                            childrenCount++;
+                        } else {
+                            adultCount++;
                         }
+
+                        break;
                     }
                 }
             }
         }
-        for (Person person : personOfStation) {
-            PersonCoveredByStationResponse persondto = PersonResponseMapper.toDto(person);
-            personOfStationDto.add(persondto);
-        }
+
         FirestationCoverageResponse firestationCoverageResponse = new FirestationCoverageResponse(personOfStationDto, adultCount, childrenCount);
         return firestationCoverageResponse;
     }
 
+    /**
+     * retrieves children living at the param address and list of other  family members.
+     * @param address
+     * @return ChildAlertResponse with children and their family.
+     */
     public ChildAlertResponse getChildrenAtAddress(String address) {
         List<ChildWithFamilyResponse> childrenDto = new ArrayList<>();
 
@@ -86,11 +94,11 @@ public class SafetyNetService {
 
                     for (MedicalRecord medicalRecord : medicalRecords) {
                         if (person.getFirstName().equals(medicalRecord.getFirstName())) {
-                            long ageTargetChild = getElapsedYears(medicalRecord.getBirthdate());
+                            long age = getElapsedYears(medicalRecord.getBirthdate());
 
-                            if (ageTargetChild <= 18) {
+                            if (age <= 18) {
                                 List<FamilyMemberResponse> familyMember = getFamilyMembers(person);
-                                ChildWithFamilyResponse persondto = TargetChildMapper.toDto(person, ageTargetChild, familyMember);
+                                ChildWithFamilyResponse persondto = TargetChildMapper.toDto(person, age, familyMember);
                                 childrenDto.add(persondto);
                             }
                         }
@@ -103,9 +111,17 @@ public class SafetyNetService {
         return childAlertResponse;
     }
 
+    /**
+     * Retrieves phone numbers of persons covered by a specific fire station.
+     *
+     * @param stationNumber the fire station number
+     * @return PhoneAlertResponse with a list of phone numbers
+     */
     public PhoneAlertResponse phoneAlert(Integer stationNumber) {
         List<String> phonesList = new ArrayList<>();
+
         if (stationNumber != null) {
+            logger.info("Fetching phone numbers for station {}", stationNumber);
             for (Firestation firestation : firestations) {
                 if (stationNumber.equals(firestation.getStation())) {
                     for (Person person : persons) {
@@ -120,11 +136,19 @@ public class SafetyNetService {
         return phoneAlertResponse;
     }
 
+    /**
+     * Retrieves information about persons living at a specific address
+     * and the station number serving it.
+     *
+     * @param address the home address
+     * @return FireAddressResponse with resident details and station number
+     */
     public FireAddressResponse fire(String address) {
         List<FirePersonInfoResponse> firePersonInfoResponses = new ArrayList<>();
         Integer station = null;
 
         if (address != null) {
+            logger.info("Fetching persons and station for address: {}", address);
             for (Firestation firestation : firestations) {
                 if (address.equals(firestation.getAddress())) {
                     firePersonInfoResponses = getPersonInfo(firestation);
@@ -132,15 +156,22 @@ public class SafetyNetService {
                 }
             }
         }
-        FireAddressResponse fireAddressResponse = new FireAddressResponse(station, firePersonInfoResponses);
 
+        FireAddressResponse fireAddressResponse = new FireAddressResponse(station, firePersonInfoResponses);
         return fireAddressResponse;
     }
 
+    /**
+     * Retrieves grouped resident data for all households covered by multiple fire stations.
+     *
+     * @param stations list of fire station numbers
+     * @return FloodStationsResponse with grouped household data
+     */
     public FloodStationsResponse flood(List<Integer> stations) {
         List<FloodHouseResponse> floodHouse = new ArrayList<>();
         FloodStationsResponse floodStationsResponse = new FloodStationsResponse();
 
+        logger.info("Generating flood list for stations: {}", stations);
         for (int i = 0; i < stations.size(); i++) {
             String address = null;
             for (Firestation firestation : firestations) {
@@ -157,6 +188,12 @@ public class SafetyNetService {
         return floodStationsResponse;
     }
 
+    /**
+     * Retrieves personal and medical info of all persons sharing the same last name.
+     *
+     * @param lastName the last name to search for
+     * @return list of PersonInfoResponse with detailed personal info
+     */
     public List<PersonInfoResponse> getPersonsByLastName(String lastName) {
         List<PersonInfoResponse> personInfoList = new ArrayList<>();
 
@@ -182,6 +219,12 @@ public class SafetyNetService {
         return personInfoList;
     }
 
+    /**
+     * Retrieves emails of all persons living in the specified city.
+     *
+     * @param city the city name
+     * @return list of email addresses
+     */
     public List<String> getEmailsByCity(String city) {
         List<String> personInfoList = new ArrayList<>();
 
@@ -196,6 +239,9 @@ public class SafetyNetService {
         return personInfoList;
     }
 
+    /**
+     * Helper method to retrieve full info (including medical data) of residents at a firestation address.
+     */
     private List<FirePersonInfoResponse> getPersonInfo(Firestation firestation) {
         List<FirePersonInfoResponse> PersonsAtThisAddress = new ArrayList<>();
         for (Person person : persons) {
@@ -217,7 +263,9 @@ public class SafetyNetService {
         return PersonsAtThisAddress;
     }
 
-
+    /**
+     * Helper method to find household members excluding the given person.
+     */
     private List<FamilyMemberResponse> getFamilyMembers(Person person) {
         List<FamilyMemberResponse> familyMember = new ArrayList<>();
 
@@ -237,12 +285,17 @@ public class SafetyNetService {
         return familyMember;
     }
 
-
+    /**
+     * Converts a string date to LocalDate using the predefined formatter.
+     */
     private LocalDate convertToLocalDate(String strDate) {
         LocalDate date = LocalDate.parse(strDate, formatter);
         return date;
     }
 
+    /**
+     * Calculates the number of years elapsed since the given date string.
+     */
     private long getElapsedYears(String strDate) {
         LocalDate date1 = convertToLocalDate(strDate);
         LocalDate date2 = LocalDate.now();
