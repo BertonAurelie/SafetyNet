@@ -3,6 +3,10 @@ package com.aboc.safetyNet.model.mapper;
 import com.aboc.safetyNet.model.Person;
 import com.aboc.safetyNet.model.dto.request.PersonCreatedDTO;
 
+/**
+ * mapper personCreatedDto to person & person to personCreatedDto
+ * used for POST status of personService(addNewPerson method)
+ */
 public class PersonCreatedMapper {
 
     public PersonCreatedMapper() {

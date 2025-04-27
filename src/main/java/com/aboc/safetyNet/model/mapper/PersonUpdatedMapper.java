@@ -3,12 +3,16 @@ package com.aboc.safetyNet.model.mapper;
 import com.aboc.safetyNet.model.Person;
 import com.aboc.safetyNet.model.dto.request.PersonUpdatedDto;
 
+/**
+ * mapper personUpdatedDto to Person & person to PersonUpdatedDto
+ * used for PUT status of personService(editPerson method).
+ */
 public class PersonUpdatedMapper {
 
     public PersonUpdatedMapper() {
     }
 
-    //Convertit un DTO en entité Person (utilisé lors de l'ajout)
+    //Convertir un DTO en entité Person (utilisé lors de l'ajout)
     public static Person toEntity(PersonUpdatedDto personUpdatedDto) {
         Person person = new Person();
 
@@ -23,7 +27,7 @@ public class PersonUpdatedMapper {
         return person;
     }
 
-    //Convertit une entité person en personDTO (utilisé lors de la réponse API)
+    //Convertir une entité person en personDTO (utilisé lors de la réponse API)
     public static PersonUpdatedDto toDto(Person person) {
         PersonUpdatedDto personUpdatedDto = new PersonUpdatedDto();
 

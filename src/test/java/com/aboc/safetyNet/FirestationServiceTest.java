@@ -41,7 +41,7 @@ public class FirestationServiceTest {
     }
 
     @Test
-    public void getAllFirestationsTest() {
+    public void givenData_whenGetAllFirestation_thenReturnListOfDataFirestations() {
         List<Firestation> result = firestationService.getAllFirestation();
 
         assertNotNull(result);
@@ -50,7 +50,7 @@ public class FirestationServiceTest {
     }
 
     @Test
-    public void updateFirestationTest() throws IOException {
+    public void givenFirestationDto_whenEditFirestation_thenReturnUpdatedFirestation() throws IOException {
         FirestationDto updatedFirestation = new FirestationDto();
         updatedFirestation.setAddress("testFirestation");
         updatedFirestation.setStation(1);
@@ -63,7 +63,7 @@ public class FirestationServiceTest {
     }
 
     @Test
-    public void noUpdatedFirestationTest() throws IOException {
+    public void givenFakeFirestationDto_whenEditFirestation_thenReturnSafetyNetBadRequestException() throws IOException {
         FirestationDto firestation = new FirestationDto();
         firestation.setAddress("testFirestation");
 
@@ -77,7 +77,7 @@ public class FirestationServiceTest {
     }
 
     @Test
-    public void unknownFirestationToUpdateTest() throws IOException {
+    public void givenFirestationDto_whenEditFirestation_thenReturnListOfFirestationWithoutThisChange() throws IOException {
         FirestationDto unknownFirestation = new FirestationDto();
         unknownFirestation.setAddress("invalidFirestation");
         unknownFirestation.setStation(2);
@@ -89,7 +89,7 @@ public class FirestationServiceTest {
     }
 
     @Test
-    public void addNewFirestationTest() throws IOException {
+    public void givenFirestationDto_whenAddNewFirestation_thenReturnDataListWithThisNewFirestation() throws IOException {
         FirestationDto firestation = new FirestationDto();
         firestation.setAddress("newFirestation");
         firestation.setStation(3);
@@ -103,8 +103,8 @@ public class FirestationServiceTest {
     }
 
     @Test
-    public void deleteFirestationTest() throws IOException {
-        firestationService.deleteFirestation("testFirestation",2);
+    public void givenDataFirestation_whenDeleteFirestation_thenReturnDataListWithoutThisFirestation() throws IOException {
+        firestationService.deleteFirestation("testFirestation", 2);
 
         List<Firestation> result = firestationService.getAllFirestation();
 
@@ -113,8 +113,8 @@ public class FirestationServiceTest {
     }
 
     @Test
-    public void noDeleteFirestationTest() throws IOException {
-        assertFalse(firestationService.deleteFirestation("unknownFirestation",2));
+    public void givenFakeFirestation_whendeleteFirestation_thenReturnDataListWithoutChange() throws IOException {
+        assertFalse(firestationService.deleteFirestation("unknownFirestation", 2));
 
         List<Firestation> result = firestationService.getAllFirestation();
 

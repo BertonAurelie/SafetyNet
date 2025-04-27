@@ -2,6 +2,11 @@ package com.aboc.safetyNet.model.dto.response;
 
 import java.util.List;
 
+/**
+ * Dto representing person information (lastName, phone, age, medicalRecord & allergies) who lives at a specific address.
+ * Used for fire method of SafetyNetService with FireAddressResponse DTO
+ * and flood method of SafetyNetService with floodHouseResponse.
+ */
 public class FirePersonInfoResponse {
     private String lastName;
     private String phone;
@@ -11,7 +16,6 @@ public class FirePersonInfoResponse {
 
     public FirePersonInfoResponse() {
     }
-
 
 
     public FirePersonInfoResponse(String lastName, String phone, Long age, List<String> medicalRecord, List<String> allergies) {

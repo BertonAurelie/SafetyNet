@@ -2,6 +2,10 @@ package com.aboc.safetyNet.model.dto.response;
 
 import java.util.List;
 
+/**
+ * DTO representing list of persons living at a specific address & the station number serving it.
+ * Used for fire method to SafetyNetService with FirePersonInfoResponse DTO.
+ */
 public class FireAddressResponse {
     private Integer station;
     private List<FirePersonInfoResponse> firePersonInfoResponse;

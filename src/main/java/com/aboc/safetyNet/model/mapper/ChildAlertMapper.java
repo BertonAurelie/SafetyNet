@@ -3,11 +3,16 @@ package com.aboc.safetyNet.model.mapper;
 import com.aboc.safetyNet.model.Person;
 import com.aboc.safetyNet.model.dto.response.FamilyMemberResponse;
 
+/**
+ * Mapper familyMember to person & person to familyMember
+ * Used for getChildrenAtAddress method of SafetyNetService.
+ */
 public class ChildAlertMapper {
 
-    public ChildAlertMapper(){}
+    public ChildAlertMapper() {
+    }
 
-    public static Person toEntity(FamilyMemberResponse familyMemberResponse){
+    public static Person toEntity(FamilyMemberResponse familyMemberResponse) {
         Person person = new Person();
 
         person.setFirstName(familyMemberResponse.getFirstName());
@@ -16,10 +21,10 @@ public class ChildAlertMapper {
         return person;
     }
 
-    public static FamilyMemberResponse toDto(Person person){
+    public static FamilyMemberResponse toDto(Person person) {
         FamilyMemberResponse familyMemberResponse = null;
 
-        if(person != null){
+        if (person != null) {
             familyMemberResponse = new FamilyMemberResponse();
 
             familyMemberResponse.setFirstName(person.getFirstName());

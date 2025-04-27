@@ -2,6 +2,10 @@ package com.aboc.safetyNet.model.dto.response;
 
 import java.util.List;
 
+/**
+ *DTO representing person information (lastName, address, age, email, medicalRecord & allergies).
+ * Used for getPersonsByLastName method to SafetyNetService.
+ */
 public class PersonInfoResponse {
     private String lastName;
     private String address;
@@ -10,10 +14,11 @@ public class PersonInfoResponse {
     private List<String> medications;
     private List<String> allergies;
 
+    //Constructor
     public PersonInfoResponse() {
     }
 
-    public PersonInfoResponse(String lastName, String address,Long age, String email, List<String> medications, List<String> allergies) {
+    public PersonInfoResponse(String lastName, String address, Long age, String email, List<String> medications, List<String> allergies) {
         this.lastName = lastName;
         this.address = address;
         this.age = age;
@@ -22,6 +27,7 @@ public class PersonInfoResponse {
         this.allergies = allergies;
     }
 
+    //Getter et Setter
     public String getLastName() {
         return lastName;
     }

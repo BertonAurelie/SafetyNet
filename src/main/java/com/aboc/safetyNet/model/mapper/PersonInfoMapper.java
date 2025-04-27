@@ -3,9 +3,13 @@ package com.aboc.safetyNet.model.mapper;
 import com.aboc.safetyNet.model.Person;
 import com.aboc.safetyNet.model.dto.response.PersonInfoResponse;
 
+/**
+ * mapper PersonInfoResponse to person & person to PersonInfoResponse.
+ * Used for getPersonsByLastName method to SafetyNetService.
+ */
 public class PersonInfoMapper {
 
-    public static Person toEntity(PersonInfoResponse personInfoResponse){
+    public static Person toEntity(PersonInfoResponse personInfoResponse) {
         Person person = new Person();
 
         person.setLastName(personInfoResponse.getLastName());
@@ -15,10 +19,10 @@ public class PersonInfoMapper {
         return person;
     }
 
-    public static PersonInfoResponse toDto(Person person){
+    public static PersonInfoResponse toDto(Person person) {
         PersonInfoResponse personInfoResponse = null;
 
-        if(person != null){
+        if (person != null) {
             personInfoResponse = new PersonInfoResponse();
 
             personInfoResponse.setLastName(person.getLastName());

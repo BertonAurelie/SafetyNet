@@ -2,12 +2,18 @@ package com.aboc.safetyNet.model.dto.response;
 
 import java.util.List;
 
+/**
+ * DTO representing the list of persons covered by a specific firestation,
+ * along with the count of adults and children.
+ * used for foundPersonWithStationNumberOfFirestation method of SafetyNetService.
+ */
 public class FirestationCoverageResponse {
     List<PersonCoveredByStationResponse> persons;
     int adultCount;
     int childrenCount;
 
-    public FirestationCoverageResponse(){}
+    public FirestationCoverageResponse() {
+    }
 
     public FirestationCoverageResponse(List<PersonCoveredByStationResponse> persons, int adultCount, int childrenCount) {
         this.persons = persons;
@@ -15,12 +21,27 @@ public class FirestationCoverageResponse {
         this.childrenCount = childrenCount;
     }
 
-    public List<PersonCoveredByStationResponse> getPersons() {return persons;}
-    public void setPersons(List<PersonCoveredByStationResponse> persons) {this.persons = persons;}
+    public List<PersonCoveredByStationResponse> getPersons() {
+        return persons;
+    }
 
-    public int getAdultCount() {return adultCount;}
-    public void setAdultCount(int adultCount) {this.adultCount = adultCount;}
+    public void setPersons(List<PersonCoveredByStationResponse> persons) {
+        this.persons = persons;
+    }
 
-    public int getChildrenCount() {return childrenCount;}
-    public void setChildrenCount(int childrenCount) {this.childrenCount = childrenCount;}
+    public int getAdultCount() {
+        return adultCount;
+    }
+
+    public void setAdultCount(int adultCount) {
+        this.adultCount = adultCount;
+    }
+
+    public int getChildrenCount() {
+        return childrenCount;
+    }
+
+    public void setChildrenCount(int childrenCount) {
+        this.childrenCount = childrenCount;
+    }
 }

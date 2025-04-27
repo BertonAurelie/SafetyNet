@@ -81,7 +81,8 @@ public class SafetyNetService {
     }
 
     /**
-     * retrieves children living at the param address and list of other  family members.
+     * retrieve children living at the param address and list of other  family members.
+     *
      * @param address
      * @return ChildAlertResponse with children and their family.
      */
@@ -98,7 +99,7 @@ public class SafetyNetService {
 
                             if (age <= 18) {
                                 List<FamilyMemberResponse> familyMember = getFamilyMembers(person);
-                                ChildWithFamilyResponse persondto = TargetChildMapper.toDto(person, age, familyMember);
+                                ChildWithFamilyResponse persondto = CurrentChildMapper.toDto(person, age, familyMember);
                                 childrenDto.add(persondto);
                             }
                         }
@@ -112,7 +113,7 @@ public class SafetyNetService {
     }
 
     /**
-     * Retrieves phone numbers of persons covered by a specific fire station.
+     * Retrieve phone numbers of persons covered by a specific fire station.
      *
      * @param stationNumber the fire station number
      * @return PhoneAlertResponse with a list of phone numbers
@@ -137,7 +138,7 @@ public class SafetyNetService {
     }
 
     /**
-     * Retrieves information about persons living at a specific address
+     * Retrieve information about persons living at a specific address
      * and the station number serving it.
      *
      * @param address the home address
@@ -162,7 +163,7 @@ public class SafetyNetService {
     }
 
     /**
-     * Retrieves grouped resident data for all households covered by multiple fire stations.
+     * Retrieve grouped resident data for all households covered by multiple fire stations.
      *
      * @param stations list of fire station numbers
      * @return FloodStationsResponse with grouped household data
@@ -189,7 +190,7 @@ public class SafetyNetService {
     }
 
     /**
-     * Retrieves personal and medical info of all persons sharing the same last name.
+     * Retrieve personal and medical info of all persons sharing the same last name.
      *
      * @param lastName the last name to search for
      * @return list of PersonInfoResponse with detailed personal info
@@ -220,7 +221,7 @@ public class SafetyNetService {
     }
 
     /**
-     * Retrieves emails of all persons living in the specified city.
+     * Retrieve emails of all persons living in the specified city.
      *
      * @param city the city name
      * @return list of email addresses

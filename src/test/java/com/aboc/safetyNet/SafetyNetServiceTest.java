@@ -32,19 +32,19 @@ public class SafetyNetServiceTest {
     private SafetyNetService safetyNetService;
 
     @BeforeEach
-    public void setUp()throws IOException {
-        Firestation firestation1 = new Firestation("firestation1",1);
-        Firestation firestation2 = new Firestation("firestation2",2);
+    public void setUp() throws IOException {
+        Firestation firestation1 = new Firestation("firestation1", 1);
+        Firestation firestation2 = new Firestation("firestation2", 2);
         List<Firestation> firestationList = new ArrayList<>();
         firestationList.add(firestation1);
         firestationList.add(firestation2);
 
-        Person adult1 = new Person("adult1", "adult1", "firestation1","city1",123,"adult1","adult1");
-        Person adult2 = new Person("adult2", "adult1", "firestation1","city1",123,"adult2","adult2");
-        Person adult3 = new Person("adult3", "adult3", "firestation2","city2",123,"adult3","adult3");
-        Person child1 = new Person("child1", "adult1", "firestation1","city1",123,"child1","child1");
-        Person child2 = new Person("child2", "adult1", "firestation1","city1",123,"child2","child2");
-        Person child3 = new Person("child3", "adult3", "firestation2","city2",123,"child3","child3");
+        Person adult1 = new Person("adult1", "adult1", "firestation1", "city1", 123, "adult1", "adult1");
+        Person adult2 = new Person("adult2", "adult1", "firestation1", "city1", 123, "adult2", "adult2");
+        Person adult3 = new Person("adult3", "adult3", "firestation2", "city2", 123, "adult3", "adult3");
+        Person child1 = new Person("child1", "adult1", "firestation1", "city1", 123, "child1", "child1");
+        Person child2 = new Person("child2", "adult1", "firestation1", "city1", 123, "child2", "child2");
+        Person child3 = new Person("child3", "adult3", "firestation2", "city2", 123, "child3", "child3");
         List<Person> personList = new ArrayList<>();
         personList.add(adult1);
         personList.add(adult2);
@@ -56,9 +56,9 @@ public class SafetyNetServiceTest {
         MedicalRecord medicalRecordAdult1 = new MedicalRecord("adult1", "adult1", "10/10/1991");
         MedicalRecord medicalRecordAdult2 = new MedicalRecord("adult2", "adult1", "10/10/1992");
         MedicalRecord medicalRecordAdult3 = new MedicalRecord("adult3", "adult3", "10/10/1993");
-        MedicalRecord medicalRecordChild1 = new MedicalRecord("child1", "adult1","01/01/2020");
-        MedicalRecord medicalRecordChild2 = new MedicalRecord("child2", "adult1","01/01/2022");
-        MedicalRecord medicalRecordChild3 = new MedicalRecord("child3", "adult3","01/12/2007");
+        MedicalRecord medicalRecordChild1 = new MedicalRecord("child1", "adult1", "01/01/2020");
+        MedicalRecord medicalRecordChild2 = new MedicalRecord("child2", "adult1", "01/01/2022");
+        MedicalRecord medicalRecordChild3 = new MedicalRecord("child3", "adult3", "01/12/2007");
         List<MedicalRecord> medicalRecordList = new ArrayList<>();
         medicalRecordList.add(medicalRecordAdult1);
         medicalRecordList.add(medicalRecordAdult2);
@@ -88,17 +88,12 @@ public class SafetyNetServiceTest {
     }
 
     @Test
-    public void foundPersonWithStationNumberTest(){
-        // WHEN
+    public void givenStationNumberOfFirestation_whenfoundPersonWithStationNumberOfFirestation_thenReturnListOfPersonsAndCountOfAdultsAndChildren() {
+
         FirestationCoverageResponse result = safetyNetService.foundPersonWithStationNumberOfFirestation(1);
 
-        // THEN
-        // Il y a 4 personnes à "firestation1"
         assertEquals(4, result.getPersons().size());
 
-        // Parmi elles :
-        // - 2 adultes (adult1, adult2)
-        // - 2 enfants (child1, child2)
         assertEquals(2, result.getAdultCount());
         assertEquals(2, result.getChildrenCount());
 
@@ -112,7 +107,7 @@ public class SafetyNetServiceTest {
     }
 
     @Test
-    public void getChildrenAtAddressTest(){
+    public void givenAddress_whenGetChildrenAtAddress_thenReturnListOfChildrenAtThisAddressAndTheirFamily() {
         ChildAlertResponse result = safetyNetService.getChildrenAtAddress("firestation1");
         assertEquals(2, result.getChildren().size());
         assertEquals("child1", result.getChildren().get(0).getFirstName());
@@ -127,14 +122,14 @@ public class SafetyNetServiceTest {
     }
 
     @Test
-    public void phoneAlertTest(){
+    public void givenStationNumber_whenPhoneAlert_thenReturnPhoneList() {
         PhoneAlertResponse result = safetyNetService.phoneAlert(1);
 
         assertEquals(4, result.getPhoneList().size());
     }
 
     @Test
-    public void fireTest(){
+    public void givenAddress_whenFire_thenReturnListOfPersonsAndStationNumberWithThisAddress() {
         FireAddressResponse result = safetyNetService.fire("firestation1");
 
         assertEquals(4, result.getFirePersonInfoResponse().size());
@@ -148,7 +143,7 @@ public class SafetyNetServiceTest {
     }
 
     @Test
-    public void floodTest(){
+    public void givenListOfStationNumbers_whenFlood_thenReturnListOfPersonsWithSameAddressOfStationNumber() {
         List<Integer> stations = new ArrayList<>();
         stations.add(1);
         stations.add(2);
@@ -156,26 +151,26 @@ public class SafetyNetServiceTest {
         FloodStationsResponse result = safetyNetService.flood(stations);
 
         assertEquals(2, result.getFloodHouse().size());
-        assertEquals(4,result.getFloodHouse().get(0).getPersonsAtThisAddress().size());
-        assertEquals(2,result.getFloodHouse().get(1).getPersonsAtThisAddress().size());
+        assertEquals(4, result.getFloodHouse().get(0).getPersonsAtThisAddress().size());
+        assertEquals(2, result.getFloodHouse().get(1).getPersonsAtThisAddress().size());
         assertEquals("firestation1", result.getFloodHouse().get(0).getAddress());
     }
 
     @Test
-    public void getPersonsByLastNameTest(){
+    public void givenLastName_whenGetPersons_thenReturnMatchingPersonsWithMedicalInfo() {
         List<PersonInfoResponse> result = safetyNetService.getPersonsByLastName("adult3");
 
         assertEquals(2, result.size());
         assertEquals("adult3", result.get(0).getLastName());
         assertEquals("firestation2", result.get(0).getAddress());
-        assertEquals(31,result.get(0).getAge());
+        assertEquals(31, result.get(0).getAge());
         assertEquals("adult3", result.get(0).getEmail());
         assertEquals(1, result.get(0).getMedications().size());
-        assertEquals(2,result.get(0).getAllergies().size());
+        assertEquals(2, result.get(0).getAllergies().size());
     }
 
     @Test
-    public void getEmailsByCityTest(){
+    public void givenCity_whenGetEmailsByCity_thenReturnListEmailsPersontoThisCity() {
         List<String> result = safetyNetService.getEmailsByCity("city1");
 
         assertEquals(4, result.size());

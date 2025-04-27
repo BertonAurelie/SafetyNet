@@ -1,14 +1,19 @@
 package com.aboc.safetyNet.model.dto.response;
 
 import java.util.List;
-
+/**
+ * used for the DTO ChildAlertResponse.
+ * retrieves information of child(firstName, lastName, age) & a list of him family member.
+ */
 public class ChildWithFamilyResponse {
     private String firstName;
     private String lastName;
     private long age;
     private List<FamilyMemberResponse> familyMember;
 
-    public ChildWithFamilyResponse() {}
+    //Constructors
+    public ChildWithFamilyResponse() {
+    }
 
     public ChildWithFamilyResponse(String firstName, String lastName, long age, List<FamilyMemberResponse> familyMember) {
         this.firstName = firstName;
@@ -17,6 +22,7 @@ public class ChildWithFamilyResponse {
         this.familyMember = familyMember;
     }
 
+    //Getter & Setter
     public String getFirstName() {
         return firstName;
     }

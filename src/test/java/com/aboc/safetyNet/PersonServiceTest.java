@@ -1,7 +1,6 @@
 package com.aboc.safetyNet;
 
 
-import com.aboc.safetyNet.exception.SafetyNetBadRequestException;
 import com.aboc.safetyNet.model.Data;
 import com.aboc.safetyNet.model.Person;
 import com.aboc.safetyNet.model.dto.request.PersonCreatedDTO;
@@ -9,7 +8,6 @@ import com.aboc.safetyNet.model.dto.request.PersonUpdatedDto;
 import com.aboc.safetyNet.model.mapper.PersonCreatedMapper;
 import com.aboc.safetyNet.service.DataService;
 import com.aboc.safetyNet.service.PersonService;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -44,7 +42,7 @@ public class PersonServiceTest {
     }
 
     @Test
-    public void getAllPersonsTest() {
+    public void givenData_whenGetAllPersons_thenReturnListOfDataPersons() {
         List<Person> result = personService.getAllPersons();
 
         assertNotNull(result);
@@ -53,7 +51,7 @@ public class PersonServiceTest {
     }
 
     @Test
-    public void updatePersonTest() throws IOException {
+    public void givenPersonUpdatedDto_whenEditPerson_thenReturnPersonUpdated() throws IOException {
         PersonUpdatedDto updatedPerson = new PersonUpdatedDto();
         updatedPerson.setFirstName("testFirstName");
         updatedPerson.setLastName("testLastName");
@@ -73,17 +71,18 @@ public class PersonServiceTest {
     }
 
     @Test
-    public void addNewPersonTest() throws IOException {
+    public void givenPersonCreatedDto_whenAddNewPerson_thenReturnDataListWithThisNewPerson() throws IOException {
         Person person = new Person("new", "new", "new", "new", 123, "new", "new");
         PersonCreatedDTO addThisPerson = PersonCreatedMapper.toDto(person);
         personService.addNewPerson(addThisPerson);
 
         List<Person> result = personService.getAllPersons();
         assertEquals(2, result.size());
+        assertEquals("new", result.get(1).getFirstName());
     }
 
     @Test
-    public void deleteDataObjectTest() throws IOException {
+    public void givenDataPerson_whenDeletePerson_thenReturnDataListWithoutThisPerson() throws IOException {
         personService.deletePerson("testFirstName", "testLastName");
         List<Person> result = personService.getAllPersons();
 
@@ -92,7 +91,7 @@ public class PersonServiceTest {
     }
 
     @Test
-    public void noDeleteDataObjectTest() throws IOException {
+    public void givenFakePerson_whenDeletePerson_thenReturnDataListWithoutChange() throws IOException {
         List<Person> result = personService.getAllPersons();
 
         assertFalse(personService.deletePerson("testFirstName", "xx"));

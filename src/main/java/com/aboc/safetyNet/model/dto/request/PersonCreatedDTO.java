@@ -4,8 +4,12 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+/**
+ * DTO for transferring person information during HTTP requests
+ * Used for creating a person mapping (POST status).
+ * All Attributes can't be empty
+ */
 public class PersonCreatedDTO {
-
     @NotNull(message = "firstName may not be empty")
     private String firstName;
 
@@ -32,25 +36,60 @@ public class PersonCreatedDTO {
     }
 
     //GETTER / SETTER
-    public String getFirstName() {return firstName;}
-    public void setFirstName(String firstName) {this.firstName = firstName;}
+    public String getFirstName() {
+        return firstName;
+    }
 
-    public String getLastName() {return lastName;}
-    public void setLastName(String lastName) {this.lastName = lastName;}
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-    public String getAddress() {return address;}
-    public void setAddress(String address) {this.address = address;}
+    public String getLastName() {
+        return lastName;
+    }
 
-    public String getCity() {return city;}
-    public void setCity(String city) {this.city = city;}
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
-    public Integer getZip() {return zip;}
-    public void setZip(Integer zip) {this.zip = zip;}
+    public String getAddress() {
+        return address;
+    }
 
-    public String getPhone() {return phone;}
-    public void setPhone(String phone) {this.phone = phone;}
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
-    public String getEmail() {return email;}
-    public void setEmail(String email) {this.email = email;}
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public Integer getZip() {
+        return zip;
+    }
+
+    public void setZip(Integer zip) {
+        this.zip = zip;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
 }

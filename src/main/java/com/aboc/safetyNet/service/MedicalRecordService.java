@@ -25,6 +25,7 @@ public class MedicalRecordService {
 
     /**
      * Retrieve the full list of medicalrecord from data file
+     *
      * @return a list of {@Link medicalRecord}
      */
     public List<MedicalRecord> getAllMedicalRecord() {
@@ -34,14 +35,15 @@ public class MedicalRecordService {
 
     /**
      * Add new medicalRecord to the list and save it to the data file
+     *
      * @param medicalRecordDto
      * @return the medicalRecord added
-     * @throws IOException if the data can't be saved
+     * @throws IOException                  if the data can't be saved
      * @throws SafetyNetBadRequestException if the medicalRecord is incomplete
      */
     public MedicalRecordDto addNewMedicalRecord(MedicalRecordDto medicalRecordDto) throws IOException {
         MedicalRecord medicalRecord = MedicalRecordMapper.toEntity(medicalRecordDto);
-        logger.info("Attempting to add firestation: {}",medicalRecord);
+        logger.info("Attempting to add firestation: {}", medicalRecord);
         if (medicalRecord != null) {
             medicalRecords.add(medicalRecord);
             dataService.writeData();
@@ -56,6 +58,7 @@ public class MedicalRecordService {
     /**
      * Update an existing medicalRecord's details.
      * matches by first name and last name.
+     *
      * @param medicalRecordDto the medicalRecord data with updated fields
      * @return the updated medicalRecord
      * @throws IOException if the data can't be saved
@@ -93,10 +96,11 @@ public class MedicalRecordService {
 
     /**
      * Delete a medicalrecord identified by first name and last name.
+     *
      * @param firstNameX the first name of the medicalRecord
-     * @param lastNameX the last name of the medicalRecord
+     * @param lastNameX  the last name of the medicalRecord
      * @return true if the medicalRecord was found and deleted, false otherwise
-     * @throws  IOException if the data can't be deleted
+     * @throws IOException if the data can't be deleted
      */
     public Boolean deleteMedicalRecord(String firstNameX, String lastNameX) {
         boolean found = false;

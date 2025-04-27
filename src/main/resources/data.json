@@ -184,93 +184,13 @@
     "phone" : "841-874-7458",
     "email" : "gramps@email.com"
   }, {
-    "firstName" : "Test1",
-    "lastName" : "Test1",
-    "address" : "Chambre",
+    "firstName" : "Test32",
+    "lastName" : "Test",
+    "address" : "Test",
     "city" : "Test",
     "zip" : 123,
-    "phone" : "Test1",
+    "phone" : "Test",
     "email" : "test@email.com"
-  }, {
-    "firstName" : "Test2",
-    "lastName" : "Test2",
-    "address" : "Salon",
-    "city" : "Test",
-    "zip" : 123,
-    "phone" : "Test2",
-    "email" : "test@test.com"
-  }, {
-    "firstName" : "Test3",
-    "lastName" : "Test3",
-    "address" : "Bureau",
-    "city" : "Test",
-    "zip" : 123,
-    "phone" : "Test3",
-    "email" : "test@test.com"
-  }, {
-    "firstName" : "testFirstName3",
-    "lastName" : "testLastName3",
-    "address" : "test3",
-    "city" : "test3",
-    "zip" : 3,
-    "phone" : "test3",
-    "email" : "test3@mail.com"
-  }, {
-    "firstName" : "testFirstName3",
-    "lastName" : "testLastName3",
-    "address" : "test3",
-    "city" : "test3",
-    "zip" : 3,
-    "phone" : "test3",
-    "email" : "test3@mail.com"
-  }, {
-    "firstName" : "testFirstName3",
-    "lastName" : "testLastName3",
-    "address" : "test3",
-    "city" : "test3",
-    "zip" : 3,
-    "phone" : "test3",
-    "email" : "test3@mail.com"
-  }, {
-    "firstName" : "testFirstName3",
-    "lastName" : "testLastName3",
-    "address" : "test3",
-    "city" : "test3",
-    "zip" : 3,
-    "phone" : "test3",
-    "email" : "test3@mail.com"
-  }, {
-    "firstName" : "testFirstName3",
-    "lastName" : "testLastName3",
-    "address" : "test3",
-    "city" : "test3",
-    "zip" : 3,
-    "phone" : "test3",
-    "email" : "test3@mail.com"
-  }, {
-    "firstName" : "testFirstName3",
-    "lastName" : "testLastName3",
-    "address" : "test3",
-    "city" : "test3",
-    "zip" : 3,
-    "phone" : "test3",
-    "email" : "test3@mail.com"
-  }, {
-    "firstName" : "testFirstName1",
-    "lastName" : "testLastName1",
-    "address" : "test1",
-    "city" : "test1",
-    "zip" : 2,
-    "phone" : "test1",
-    "email" : "test1@mail.com"
-  }, {
-    "firstName" : "testFirstName1",
-    "lastName" : "testLastName1",
-    "address" : "test1",
-    "city" : "test1",
-    "zip" : 3,
-    "phone" : "test1",
-    "email" : "test1@mail.com"
   } ],
   "firestations" : [ {
     "address" : "1509 Culver St",
@@ -320,6 +240,9 @@
   }, {
     "address" : "Bureau",
     "station" : 5
+  }, {
+    "address" : "Test",
+    "station" : 55
   } ],
   "medicalrecords" : [ {
     "firstName" : "John",

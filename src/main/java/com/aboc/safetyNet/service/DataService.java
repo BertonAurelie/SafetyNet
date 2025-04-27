@@ -1,7 +1,7 @@
 package com.aboc.safetyNet.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.aboc.safetyNet.model.Data;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ public class DataService {
     }
 
     public Data loadFileData() throws IOException {
-        logger.info("{}Loading data JSON...{}","");
+        logger.info("{}Loading data JSON...{}", "");
         if (dataList == null) {
             try {
                 ObjectMapper objectMapper = new ObjectMapper();

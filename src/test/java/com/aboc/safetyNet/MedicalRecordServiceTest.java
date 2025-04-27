@@ -4,7 +4,6 @@ import com.aboc.safetyNet.model.Data;
 import com.aboc.safetyNet.model.MedicalRecord;
 import com.aboc.safetyNet.model.dto.request.MedicalRecordDto;
 import com.aboc.safetyNet.service.DataService;
-import com.aboc.safetyNet.service.FirestationService;
 import com.aboc.safetyNet.service.MedicalRecordService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,14 +43,14 @@ public class MedicalRecordServiceTest {
     }
 
     @Test
-    public void getAllMedications(){
+    public void givenData_whenGetAllMedicalRecord_thenReturnListOfDataMedicalRecords() {
         List<MedicalRecord> result = medicalRecordService.getAllMedicalRecord();
 
         assertEquals(1, result.size());
     }
 
     @Test
-    public void addNewMedicalRecord() throws IOException {
+    public void givenMedicalRecordDto_whenAddNewMedicalRecord_thenReturnDataListWithThisNewMedicalRecord() throws IOException {
         MedicalRecordDto addMedical = new MedicalRecordDto();
         addMedical.setFirstName("addFirstName");
         addMedical.setLastName("addLastName");
@@ -65,7 +64,7 @@ public class MedicalRecordServiceTest {
     }
 
     @Test
-    public void updatedMedicalRecord()throws  IOException{
+    public void givenMedicalRecordDto_whenEditMedicalRecord_thenReturnMedicalRecordUpdated() throws IOException {
         List<String> updatedList = new ArrayList<>();
         updatedList.add("add");
         MedicalRecordDto updatedMedical = new MedicalRecordDto();
@@ -78,22 +77,22 @@ public class MedicalRecordServiceTest {
         medicalRecordService.updatedMedicalRecord(updatedMedical);
 
         List<MedicalRecord> result = medicalRecordService.getAllMedicalRecord();
-        assertEquals(1,result.size());
+        assertEquals(1, result.size());
         assertEquals("updated", result.get(0).getBirthdate());
         assertEquals(updatedList, result.get(0).getMedications());
-        assertEquals(updatedList,result.get(0).getAllergies());
+        assertEquals(updatedList, result.get(0).getAllergies());
     }
 
     @Test
-    public void deleteMedicalRecord() throws IOException{
-        medicalRecordService.deleteMedicalRecord("test","test");
+    public void givenDataMedicalRecord_whenDeleteMedicalRecord_thenReturnDataListWithoutThisMedicalRecord() throws IOException {
+        medicalRecordService.deleteMedicalRecord("test", "test");
 
         List<MedicalRecord> result = medicalRecordService.getAllMedicalRecord();
         assertEquals(0, result.size());
     }
 
     @Test
-    public void unknownMedicalRecordToDelete() throws IOException{
+    public void givenFakeMedicalRecord_whenDeleteMedicalRecord_thenReturnDataListWithoutChange() throws IOException {
         medicalRecordService.deleteMedicalRecord("unknown", "unknown");
 
         List<MedicalRecord> result = medicalRecordService.getAllMedicalRecord();

@@ -1,11 +1,16 @@
 package com.aboc.safetyNet.model.dto.response;
 
+/**
+ * used for the DTO ChildWithFamilyResponse.
+ * retrieves information of family member(firstName, lastName, age).
+ */
 public class FamilyMemberResponse {
     private String firstName;
     private String lastName;
     private long age;
 
-    public FamilyMemberResponse(){}
+    public FamilyMemberResponse() {
+    }
 
     public FamilyMemberResponse(String firstName, String lastName, long age) {
         this.firstName = firstName;

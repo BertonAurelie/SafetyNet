@@ -26,20 +26,22 @@ public class PersonController {
     }
 
     /**
-     * Read - Get all persons on DB
+     * Retrieves all persons from the database.
      *
-     * @return - An Iterable object of Persons full filled
+     * @return ResponseEntity containing a list of all Person
      */
     @GetMapping
     public ResponseEntity<List<Person>> getAllPersons() {
-        logger.info("loading getAllPersons");
+        logger.info("Executing getAllPersons");
         return new ResponseEntity<>(personService.getAllPersons(), HttpStatus.OK);
     }
 
     /**
-     * Create - add new person on DB
+     * Adds a new person to the database.
      *
-     * @return this person
+     * @param person (PersonCreatedDTO) containing the new person's details
+     * @return ResponseEntity containing the created person (PersonCreatedDTO)
+     * @throws IOException if saving the new person fails
      */
     @PostMapping
     public ResponseEntity<PersonCreatedDTO> addPerson(@RequestBody @Valid PersonCreatedDTO person) throws IOException {
@@ -47,7 +49,12 @@ public class PersonController {
     }
 
     /**
-     * Delete - Delete person on DB
+     * Deletes an existing person identified by their first and last name.
+     *
+     * @param firstName of person to delete
+     * @param lastName  of person to delete
+     * @return ResponseEntity indicating the outcome (success or not found)
+     * @throws IOException if deletion fails
      */
     @DeleteMapping
     public ResponseEntity<String> deletePerson(@RequestParam String firstName, @RequestParam String lastName) throws IOException {
@@ -59,9 +66,11 @@ public class PersonController {
     }
 
     /**
-     * Edit - Edit person
+     * Updates an existing person with new details.
      *
-     * @return person updated
+     * @param person (PersonUpdatedDto) containing updated information
+     * @return ResponseEntity containing the updated PersonUpdatedDto
+     * @throws IOException if update fails
      */
     @PutMapping
     public ResponseEntity<PersonUpdatedDto> updatePerson(@RequestBody PersonUpdatedDto person) throws IOException {

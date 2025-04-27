@@ -25,6 +25,7 @@ public class FirestationService {
 
     /**
      * Retrieve the full list of firestation from data file.
+     *
      * @return a list of {@Link Firestation}
      */
     public List<Firestation> getAllFirestation() {
@@ -35,14 +36,15 @@ public class FirestationService {
 
     /**
      * Add new firestation to the list and save it to the data file.
+     *
      * @param firestationDto
      * @return the firestation added
-     * @throws IOException if the data can't be saved
+     * @throws IOException                  if the data can't be saved
      * @throws SafetyNetBadRequestException if the firestation is incomplete
      */
     public FirestationDto addNewFirestation(FirestationDto firestationDto) throws IOException {
         Firestation firestation = FirestationMapper.toEntity(firestationDto);
-        logger.info("Attempting to add firestation: {}",firestation);
+        logger.info("Attempting to add firestation: {}", firestation);
         if (firestation != null) {
             firestations.add(firestation);
             dataService.writeData();
@@ -57,6 +59,7 @@ public class FirestationService {
     /**
      * Update an existing firestation's details.
      * Matches by address
+     *
      * @param firestationDto the firestation data with updated fields
      * @return the updated firestation
      * @throws IOException if the data cannot be saved
@@ -89,7 +92,8 @@ public class FirestationService {
 
     /**
      * Delete a firestation identified by address and station number.
-     * @param adressX the address of the firestation
+     *
+     * @param adressX  the address of the firestation
      * @param stationY the number station of the firestation
      * @return true if the firestation was found and deleted, false otherwise
      * @throws IOException if the data can't be deleted

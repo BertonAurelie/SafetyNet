@@ -3,11 +3,15 @@ package com.aboc.safetyNet.model.mapper;
 import com.aboc.safetyNet.model.MedicalRecord;
 import com.aboc.safetyNet.model.dto.request.MedicalRecordDto;
 
+/**
+ * Mapper MedicalRecordDto to MedicalRecord & MedicalRecord to MedicalRecordDto.
+ */
 public class MedicalRecordMapper {
 
-    public MedicalRecordMapper() {}
+    public MedicalRecordMapper() {
+    }
 
-    //Convertit un DTO en entité Person (utilisé lors de l'ajout)
+    //Convertir un DTO en entité Person (utilisé lors de l'ajout)
     public static MedicalRecord toEntity(MedicalRecordDto medicalRecordDto) {
         MedicalRecord medicalRecord = new MedicalRecord();
 
@@ -20,11 +24,11 @@ public class MedicalRecordMapper {
         return medicalRecord;
     }
 
-    //Convertit une entité person en personDTO (utilisé lors de la réponse API)
+    //Convertir une entité person en personDTO (utilisé lors de la réponse API)
     public static MedicalRecordDto toDto(MedicalRecord medicalRecord) {
         MedicalRecordDto medicalRecordDto = null;
 
-        if(medicalRecord != null){
+        if (medicalRecord != null) {
             medicalRecordDto = new MedicalRecordDto();
 
             medicalRecordDto.setFirstName(medicalRecord.getFirstName());

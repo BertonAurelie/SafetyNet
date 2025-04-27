@@ -41,7 +41,7 @@ public class PersonService {
      *
      * @param personCreatedDto
      * @return the person added
-     * @throws IOException if the data can't be saved
+     * @throws IOException                  if the data can't be saved
      * @throws SafetyNetBadRequestException if the person is incomplete
      */
     public PersonCreatedDTO addNewPerson(PersonCreatedDTO personCreatedDto) throws IOException {
@@ -111,7 +111,7 @@ public class PersonService {
      * Delete a person identified by first name and last name.
      *
      * @param firstNameX the first name of the person
-     * @param lastNameY the last name of the person
+     * @param lastNameY  the last name of the person
      * @return true if the person was found and deleted, false otherwise
      * @throws IOException if the data can't be deleted
      */

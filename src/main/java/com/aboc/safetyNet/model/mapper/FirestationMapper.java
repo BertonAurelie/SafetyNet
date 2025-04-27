@@ -3,9 +3,14 @@ package com.aboc.safetyNet.model.mapper;
 import com.aboc.safetyNet.model.Firestation;
 import com.aboc.safetyNet.model.dto.request.FirestationDto;
 
+/**
+ * Mapper FirestationDto to Firestation & Firestation to FirestationDto.
+ * used for methods of firestationService.
+ */
 public class FirestationMapper {
 
-    public FirestationMapper() {}
+    public FirestationMapper() {
+    }
 
     //Convertit un DTO en entité Person (utilisé lors de l'ajout)
     public static Firestation toEntity(FirestationDto firestationDTO) {
@@ -21,7 +26,7 @@ public class FirestationMapper {
     public static FirestationDto toDto(Firestation firestation) {
         FirestationDto firestationDTO = null;
 
-        if(firestation != null){
+        if (firestation != null) {
             firestationDTO = new FirestationDto();
 
             firestationDTO.setStation(firestation.getStation());

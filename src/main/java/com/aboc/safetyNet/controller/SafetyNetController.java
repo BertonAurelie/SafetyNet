@@ -23,22 +23,46 @@ public class SafetyNetController {
         logger.info("loading SafetyNetController");
     }
 
-
+    /**
+     * Retrieves a list of children living at a given address, along with household members.
+     *
+     * @param address to search
+     * @return ChildAlertResponse containing children and adults living at the address
+     */
     @GetMapping("/childAlert")
-    public ResponseEntity<ChildAlertResponse> getchildAlert(String address) {
+    public ResponseEntity<ChildAlertResponse> getchildAlert(@RequestParam String address) {
         return new ResponseEntity<>(safetyNetService.getChildrenAtAddress(address), HttpStatus.OK);
     }
 
-    @GetMapping("phoneAlert")
+    /**
+     * Retrieves the phone numbers of residents covered by a specific firestation.
+     *
+     * @param station the firestation number
+     * @return PhoneAlertResponse containing phone numbers of covered persons
+     */
+    @GetMapping("/phoneAlert")
     public ResponseEntity<PhoneAlertResponse> getPhoneAlert(@RequestParam Integer station) {
         return new ResponseEntity<>(safetyNetService.phoneAlert(station), HttpStatus.OK);
     }
 
+    /**
+     * Retrieves information about all people living at a given address,
+     * including the firestation number serving that address.
+     *
+     * @param address to search
+     * @return FireAddressResponse with details about residents and station number
+     */
     @GetMapping("/fire")
     public ResponseEntity<FireAddressResponse> fireGetAddressPeople(@RequestParam String address) {
         return new ResponseEntity<>(safetyNetService.fire(address), HttpStatus.OK);
     }
 
+    /**
+     * Retrieves households by firestation numbers in case of a flood.
+     *
+     * @param stations list of firestation numbers
+     * @return FloodStationsResponse with a list of households covered by the stations
+     */
     @GetMapping("/flood/stations")
     public ResponseEntity<FloodStationsResponse> floodGetAddressPeople(@RequestParam String stations) {
         List<Integer> myList = new ArrayList<>();
@@ -48,11 +72,23 @@ public class SafetyNetController {
         return new ResponseEntity<>(safetyNetService.flood(myList), HttpStatus.OK);
     }
 
-    @GetMapping
+    /**
+     * Retrieves detailed person information based on last name.
+     *
+     * @param lastName to search
+     * @return a list of PersonInfoResponse objects containing person details
+     */
+    @GetMapping("/personInfoLastName")
     public ResponseEntity<List<PersonInfoResponse>> getPersonInfo(@RequestParam String lastName) {
         return new ResponseEntity<>(safetyNetService.getPersonsByLastName(lastName), HttpStatus.OK);
     }
 
+    /**
+     * Retrieves all email addresses of residents living in a given city.
+     *
+     * @param city to search
+     * @return a list of email addresses
+     */
     @GetMapping("/communityEmail")
     public ResponseEntity<List<String>> getEmailByCity(@RequestParam String city) {
         return new ResponseEntity<>(safetyNetService.getEmailsByCity(city), HttpStatus.OK);

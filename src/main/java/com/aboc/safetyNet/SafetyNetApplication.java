@@ -7,11 +7,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class SafetyNetApplication implements CommandLineRunner {
 
-	public static void main(String[] args) {
-		SpringApplication.run(SafetyNetApplication.class, args);
-	}
-	@Override
-	public void run(String... args) throws Exception {
-		System.out.println("Application démarrée!");
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(SafetyNetApplication.class, args);
+    }
+
+    @Override
+    public void run(String... args) throws Exception {
+        System.out.println("Application démarrée!");
+    }
 }

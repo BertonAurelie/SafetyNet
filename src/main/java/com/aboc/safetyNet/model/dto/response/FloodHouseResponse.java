@@ -2,6 +2,11 @@ package com.aboc.safetyNet.model.dto.response;
 
 import java.util.List;
 
+/**
+ * DTO representing list of persons living at specific address.
+ * Uses FirePersonInfoResponse as attribute.
+ * Used in floodStationResponse DTO.
+ */
 public class FloodHouseResponse {
     private String address;
     List<FirePersonInfoResponse> personsAtThisAddress;
