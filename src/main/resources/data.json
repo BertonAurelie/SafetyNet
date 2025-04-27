@@ -183,15 +183,8 @@
     "zip" : 97451,
     "phone" : "841-874-7458",
     "email" : "gramps@email.com"
-  }, {
-    "firstName" : "Test32",
-    "lastName" : "Test",
-    "address" : "Test",
-    "city" : "Test",
-    "zip" : 123,
-    "phone" : "Test",
-    "email" : "test@email.com"
-  } ],
+  }
+  ],
   "firestations" : [ {
     "address" : "1509 Culver St",
     "station" : 3
@@ -231,18 +224,6 @@
   }, {
     "address" : "951 LoneTree Rd",
     "station" : 2
-  }, {
-    "address" : "Chambre",
-    "station" : 5
-  }, {
-    "address" : "Salon",
-    "station" : 5
-  }, {
-    "address" : "Bureau",
-    "station" : 5
-  }, {
-    "address" : "Test",
-    "station" : 55
   } ],
   "medicalrecords" : [ {
     "firstName" : "John",
@@ -382,23 +363,5 @@
     "birthdate" : "08/06/1945",
     "medications" : [ "tradoxidine:400mg" ],
     "allergies" : [ ]
-  }, {
-    "firstName" : "Test1",
-    "lastName" : "Test1",
-    "birthdate" : "11/11/1994",
-    "medications" : [ "Test1:400mg" ],
-    "allergies" : [ ]
-  }, {
-    "firstName" : "Test2",
-    "lastName" : "Test2",
-    "birthdate" : "03/06/1994",
-    "medications" : [ ],
-    "allergies" : [ "Test2:400mg" ]
-  }, {
-    "firstName" : "Test3",
-    "lastName" : "Test3",
-    "birthdate" : "03/06/1994",
-    "medications" : [ "Test3:400mg" ],
-    "allergies" : [ "Test3:400mg" ]
   } ]
 }
